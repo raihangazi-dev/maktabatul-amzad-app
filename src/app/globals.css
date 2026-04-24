@@ -89,6 +89,55 @@ body {
   transform: scale(1.04);
 }
 
+.books-filter-panel {
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.books-filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.books-filter-group > p {
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.7rem;
+}
+
+.books-filter-group ul {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.books-filter-group a,
+.books-filter-group button {
+  align-items: center;
+  color: #5f666d;
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: space-between;
+  text-align: left;
+  transition: color 0.14s ease;
+  width: 100%;
+}
+
+.books-filter-group a:hover,
+.books-filter-group button:hover,
+.books-filter-group button.active {
+  color: #108D41;
+}
+
+.books-filter-group a span:last-child {
+  background: #f3f4f6;
+  color: #9ca3af;
+  font-size: 0.72rem;
+  min-width: 2rem;
+  padding: 0.1rem 0.35rem;
+  text-align: center;
+}
+
 /* ============ ADMIN SIDEBAR ============ */
 .admin-nav-item {
   display: flex;
