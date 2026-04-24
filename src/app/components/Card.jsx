@@ -1,9 +1,13 @@
-const CardWriter = ({ name, desc, items, image }) => {
+import Image from "next/image";
+
+export default function CardWriter({ name, desc, items, image }) {
   return (
     <div className="w-[208px] overflow-hidden rounded-md bg-white shadow-md transition hover:-translate-y-1 hover:shadow-lg">
-      <img
+      <Image
         src={image}
         alt={name}
+        width={208}
+        height={206}
         className="h-[206px] w-full object-cover"
       />
 
@@ -18,4 +22,4 @@ const CardWriter = ({ name, desc, items, image }) => {
       </div>
     </div>
   );
-};
+}
