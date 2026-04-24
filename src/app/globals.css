@@ -10,6 +10,13 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-segoe-ui);
   --font-mono: var(--font-geist-mono);
+
+  /* Brand colors */
+  --color-primary: #108D41;
+  --color-red: #F0141E;
+  --color-olive: #95B32A;
+  --color-gold: #F9AC20;
+  --color-black2: #333333;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,8 +32,36 @@ body {
   font-family: var(--font-segoe-ui), Arial, Helvetica, sans-serif;
 }
 
-.container{
+.container {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.book-card:hover img {
+  transform: translateY(-4px);
+}
+
+.admin-nav.active {
+  background-color: #108D41;
+  color: white;
+}
+
+.pagination-active {
+  border-color: #108D41;
+  background-color: #108D41;
+  color: white;
+}
+
+.box-shadow {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }

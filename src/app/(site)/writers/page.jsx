@@ -1,8 +1,11 @@
-export default function WritersPage() {
-  return (
-    <section className="container py-10">
-      <h1 className="text-3xl font-bold text-black">Writers</h1>
-      <p className="mt-2 text-gray-700">Browse writers and their books.</p>
-    </section>
-  );
+import WritersClient from "./WritersClient";
+
+export const metadata = { title: "Maktabatul Amzad - Writers" };
+
+const BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+export default async function WritersPage() {
+  const res = await fetch(`${BASE}/api/writers`, { cache: "no-store" });
+  const writers = res.ok ? await res.json() : [];
+  return <WritersClient writers={writers} />;
 }

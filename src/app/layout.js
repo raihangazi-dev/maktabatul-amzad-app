@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Providers from "@/providers/Providers";
 
 const segoeUi = localFont({
   src: [
@@ -12,7 +13,6 @@ const segoeUi = localFont({
   variable: "--font-segoe-ui",
   display: "swap",
 });
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +26,14 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Maktabatul Amzad",
-  description: "Books, writers, and ecommerce dashboard",
+  description: "Islamic books store — browse books, writers, and publishers",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${segoeUi.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
