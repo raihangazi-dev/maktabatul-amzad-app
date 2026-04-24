@@ -6,6 +6,8 @@ import connectDB from "./mongodb";
 import User from "./models/User";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  trustHost: true,
   providers: [
     Credentials({
       name: "credentials",

@@ -2,6 +2,8 @@
 // Used by middleware.js which runs on the Edge runtime.
 
 const authConfig = {
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  trustHost: true,
   pages: { signIn: "/auth/signin" },
   session: { strategy: "jwt" },
   providers: [],
