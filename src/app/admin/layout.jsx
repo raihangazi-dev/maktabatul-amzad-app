@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Breadcrumb from "@/components/Breadcrumb";
 import {
   LayoutDashboard, BookOpen, PenLine, Edit3, Languages, Building2,
@@ -86,14 +86,8 @@ function NavItem({ item, collapsed, pathname }) {
 
 export default function AdminLayout({ children }) {
   const { data: session, status } = useSession();
-  const router = useRouter();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
-    if (status === "unauthenticated") router.push("/auth/signin");
-    if (status === "authenticated" && session?.user?.role !== "admin") router.push("/");
-  }, [status, session, router]);
 
   if (status === "loading") {
     return (
@@ -105,6 +99,8 @@ export default function AdminLayout({ children }) {
       </div>
     );
   }
+
+  if (!session?.user || session.user.role !== "admin") return null;
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">

@@ -72,16 +72,6 @@ export default function Header() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-white/75">
-            <Link href="/cart" className="flex items-center gap-1.5 hover:text-primary transition-colors">
-              <ShoppingCart className="h-3.5 w-3.5" />
-              <span>Cart</span>
-              {cart.length > 0 && (
-                <span className="flex h-4 min-w-4 items-center justify-center bg-red px-1 text-[10px] font-bold text-white">
-                  {cart.length}
-                </span>
-              )}
-            </Link>
-
             <div className="relative">
               <button
                 type="button"
@@ -141,6 +131,17 @@ export default function Header() {
                       <Link href="/user" onClick={closeMenus} className="block px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
                         My Account
                       </Link>
+                      <Link href="/cart" onClick={closeMenus} className="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
+                        <span className="flex items-center gap-2">
+                          <ShoppingCart className="h-3.5 w-3.5 text-gray-400" />
+                          Cart
+                        </span>
+                        {cart.length > 0 && (
+                          <span className="flex h-4 min-w-4 items-center justify-center bg-red px-1 text-[10px] font-bold text-white">
+                            {cart.length}
+                          </span>
+                        )}
+                      </Link>
                       {session.user?.role === "admin" && (
                         <Link href="/admin" onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold text-primary hover:bg-green-50 transition-colors">
                           Admin Panel
@@ -160,6 +161,18 @@ export default function Header() {
                     </>
                   ) : (
                     <>
+                      <Link href="/cart" onClick={closeMenus} className="flex items-center justify-between px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
+                        <span className="flex items-center gap-2">
+                          <ShoppingCart className="h-3.5 w-3.5 text-gray-400" />
+                          Cart
+                        </span>
+                        {cart.length > 0 && (
+                          <span className="flex h-4 min-w-4 items-center justify-center bg-red px-1 text-[10px] font-bold text-white">
+                            {cart.length}
+                          </span>
+                        )}
+                      </Link>
+                      <div className="border-t border-gray-100" />
                       <Link href="/auth/signin" onClick={closeMenus} className="block px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
                         Sign In
                       </Link>

@@ -27,7 +27,6 @@ export default function AdminUserList() {
     <div className="p-5">
       <div className="mb-5 border-b pb-3">
         <h3 className="text-xl font-bold">User Management</h3>
-        <p className="text-xs text-gray-500 mt-1">The admin email set in <code className="bg-gray-100 px-1 rounded">ADMIN_EMAIL</code> always has admin access regardless of DB role.</p>
       </div>
       <table className="w-full text-sm border-collapse">
         <thead>
@@ -42,7 +41,6 @@ export default function AdminUserList() {
         <tbody>
           {users.map((u, i) => {
             const isSelf = u.email === session?.user?.email;
-            const isEnvAdmin = u.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
             return (
               <tr key={u._id} className="hover:bg-gray-50">
                 <td className="p-2 border">{i + 1}</td>
@@ -62,7 +60,7 @@ export default function AdminUserList() {
                 </td>
                 <td className="p-2 border text-gray-600">{u.email}</td>
                 <td className="p-2 border text-center">
-                  {isSelf || isEnvAdmin ? (
+                  {isSelf ? (
                     <span className={`text-xs px-2 py-0.5 rounded capitalize ${u.role === "admin" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
                       {u.role}
                     </span>

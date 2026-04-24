@@ -63,12 +63,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.role = user.role;
         token.id = user.id;
-        // On sign-in: if this is the designated admin email, sync role to DB
-        if (user.email === process.env.ADMIN_EMAIL && user.role !== "admin") {
-          await connectDB();
-          await User.findByIdAndUpdate(user.id, { $set: { role: "admin" } });
-          token.role = "admin";
-        }
       }
       if (token.email && !token.role) {
         await connectDB();
@@ -77,10 +71,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.role = dbUser.role;
           token.id = dbUser._id.toString();
         }
-      }
-      // Always enforce admin role for ADMIN_EMAIL in the token (cheap string check, no DB hit)
-      if (process.env.ADMIN_EMAIL && token.email === process.env.ADMIN_EMAIL) {
-        token.role = "admin";
       }
       return token;
     },
