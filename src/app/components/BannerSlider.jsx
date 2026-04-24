@@ -15,30 +15,33 @@ export default function BannerSlider({ banners = [] }) {
 
   if (activeBanners.length === 0) {
     return (
-      <div className="border relative py-10 px-10 lg:px-20 flex items-center justify-center bg-gray-50 min-h-[300px]">
-        <p className="text-gray-400">No active banners</p>
+      <div className="relative flex min-h-[320px] items-center justify-center border border-gray-200 bg-white px-10 py-10 shadow-sm">
+        <p className="text-sm font-medium text-gray-400">No active banners</p>
       </div>
     );
   }
 
   return (
-    <div className="border relative py-5 px-10 lg:px-20">
+    <div className="relative overflow-hidden border border-gray-200 bg-[linear-gradient(135deg,#ffffff_0%,#f0fdf4_55%,#fff5f5_100%)] px-8 py-8 shadow-sm md:px-12 lg:px-20">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {activeBanners.map((banner) => (
             <div key={banner._id} className="flex-none w-full">
-              <div className="flex items-center justify-center gap-8">
-                <div className="w-8/12">
-                  <h3 className="text-lg md:text-xl lg:text-2xl xl:text-4xl font-bold line-clamp-2">
+              <div className="grid min-h-[280px] items-center gap-8 md:grid-cols-[1.4fr_0.8fr]">
+                <div className="animate-slideUp">
+                  <p className="mb-3 inline-flex bg-primary px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
+                    Featured Collection
+                  </p>
+                  <h3 className="max-w-2xl text-2xl font-black leading-tight text-black line-clamp-2 md:text-4xl xl:text-5xl">
                     {banner.title?.[language] || banner.title?.[1] || ""}
                   </h3>
-                  <p className="text-base lg:text-lg mt-2 mb-4 line-clamp-2 text-gray-600">
+                  <p className="mt-4 max-w-xl text-base leading-relaxed text-gray-600 line-clamp-2 lg:text-lg">
                     {banner.text?.[language] || banner.text?.[1] || ""}
                   </p>
                 </div>
-                <div className="w-4/12">
+                <div className="flex justify-center md:justify-end">
                   {banner.thumb && (
-                    <img src={banner.thumb} className="w-full lg:w-9/12 xl:w-7/12 ml-auto" alt="" />
+                    <img src={banner.thumb} className="max-h-[260px] w-auto object-contain drop-shadow-xl transition-transform duration-300 hover:scale-105" alt="" />
                   )}
                 </div>
               </div>
@@ -51,13 +54,13 @@ export default function BannerSlider({ banners = [] }) {
         <>
           <button
             onClick={scrollPrev}
-            className="absolute top-1/2 left-0 -translate-y-1/2 py-4 px-1 bg-gray-400 hover:bg-red"
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/45 px-2 py-5 text-white hover:bg-red transition-colors"
           >
             <ChevronLeft className="text-white h-5 w-5" />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute top-1/2 right-0 -translate-y-1/2 py-4 px-1 bg-gray-400 hover:bg-red"
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/45 px-2 py-5 text-white hover:bg-red transition-colors"
           >
             <ChevronRight className="text-white h-5 w-5" />
           </button>

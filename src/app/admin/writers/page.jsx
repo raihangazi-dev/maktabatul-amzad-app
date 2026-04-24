@@ -33,7 +33,7 @@ export default function AdminWriterList() {
           {writers.map((w, i) => (
             <tr key={w._id} className="hover:bg-gray-50">
               <td className="p-2 border">{i + 1}</td>
-              <td className="p-2 border text-center">{w.image ? <img src={w.image} className="h-10 w-10 rounded-full object-cover mx-auto" /> : <User className="h-8 w-8 text-gray-400 mx-auto" />}</td>
+              <td className="p-2 border text-center">{w.image ? <img src={w.image} className="h-10 w-10 object-cover mx-auto" alt={w.name?.[1] || "Writer"} /> : <User className="h-8 w-8 text-gray-400 mx-auto" />}</td>
               <td className="p-2 border">{w.name?.[language] || w.name?.[1]}</td>
               <td className="p-2 border text-gray-500 text-xs">{w.writerId}</td>
               <td className="p-2 border">

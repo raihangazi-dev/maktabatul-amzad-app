@@ -10,15 +10,20 @@ export default function AdminBookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
-    setLoading(true);
+  const load = (showLoading = true) => {
+    if (showLoading) setLoading(true);
     fetch("/api/books?size=100")
       .then((r) => r.json())
       .then((data) => setBooks(Array.isArray(data) ? data : []))
       .finally(() => setLoading(false));
   };
 
-  useEffect(load, []);
+  useEffect(() => {
+    fetch("/api/books?size=100")
+      .then((r) => r.json())
+      .then((data) => setBooks(Array.isArray(data) ? data : []))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this book?")) return;

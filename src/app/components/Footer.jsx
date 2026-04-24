@@ -10,14 +10,14 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-black pt-8 mt-10">
+    <footer className="mt-12 bg-black pt-8 text-white">
       <div className="container">
         <div className="md:flex justify-between">
           <div className="md:w-3/12 xl:w-2/12 md:border-r border-gray-700">
             <div className="flex flex-wrap md:flex-col justify-between md:justify-start">
               {features.map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex items-center mb-8">
-                  <div className="bg-gray-700 p-4">
+                <div key={title} className="mb-8 flex items-center transition-transform duration-150 hover:translate-x-1">
+                  <div className="bg-primary p-4">
                     <Icon className="text-white h-5 w-5" />
                   </div>
                   <div className="ml-2">
@@ -37,8 +37,8 @@ export default function Footer() {
               </div>
               <div>
                 <form className="flex">
-                  <input name="email" placeholder="Your email" className="pl-3 py-2 focus:outline-none text-black" />
-                  <button type="submit" className="bg-red py-2 px-3 md:px-5 text-white ml-2 hover:opacity-90">Submit</button>
+                  <input name="email" placeholder="Your email" className="form-input min-w-0 text-black md:w-64" />
+                  <button type="submit" className="btn btn-danger ml-2">Submit</button>
                 </form>
               </div>
             </div>
@@ -86,9 +86,9 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Maktabatul Amzad. All rights reserved.
           </p>
           <div className="flex items-center gap-2 mt-2 md:mt-0">
-            <img className="w-12 bg-white p-1 rounded" src="https://i.ibb.co/H7WTt0c/Mastercard-Logo.png" alt="Mastercard" />
-            <img className="w-12 bg-white p-1 rounded" src="https://i.ibb.co/XXfWCh4/paypal-logo-png-1.png" alt="PayPal" />
-            <img className="w-12 bg-white p-1 rounded" src="https://i.ibb.co/NKghvtF/Visa-Logo.png" alt="Visa" />
+            <img className="w-12 bg-white p-1" src="https://i.ibb.co/H7WTt0c/Mastercard-Logo.png" alt="Mastercard" />
+            <img className="w-12 bg-white p-1" src="https://i.ibb.co/XXfWCh4/paypal-logo-png-1.png" alt="PayPal" />
+            <img className="w-12 bg-white p-1" src="https://i.ibb.co/NKghvtF/Visa-Logo.png" alt="Visa" />
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ export default function AllBooksClient() {
   const router = useRouter();
 
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalBooks, setTotalBooks] = useState(0);
   const [sort, setSort] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -32,16 +32,26 @@ export default function AllBooksClient() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     const query = titleQuery
       ? `/api/books?title=${titleQuery}`
       : `/api/books?page=${currentPage}&size=${itemsPerPage}&gte=${gte}&lte=${lte}&sort=${sort}`;
 
+    let ignore = false;
     fetch(query)
       .then((r) => r.json())
-      .then((data) => setBooks(Array.isArray(data) ? data : []))
-      .catch(() => setBooks([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (!ignore) setBooks(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!ignore) setBooks([]);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, [titleQuery, itemsPerPage, currentPage, sort, gte, lte]);
 
   return (

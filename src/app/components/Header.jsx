@@ -1,74 +1,115 @@
 "use client";
+
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { ShoppingCart, User, Phone, Mail, ChevronDown, Menu, X, LogOut } from "lucide-react";
+import {
+  ChevronDown,
+  Globe,
+  LogOut,
+  Mail,
+  Menu,
+  Phone,
+  Search,
+  ShoppingCart,
+  User,
+  X,
+} from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useCart } from "@/context/CartContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
-  { en: "Home", bn: "হোম", ar: "بيت", href: "/" },
-  { en: "Books", bn: "বই", ar: "كتب", href: "/books" },
-  { en: "Writers", bn: "লেখক", ar: "الكتاب", href: "/writers" },
-  { en: "Publishers", bn: "প্রকাশক", ar: "الناشرين", href: "/publishers" },
-  { en: "Category", bn: "ক্যাটেগরি", ar: "فئة", href: "/categories" },
-  { en: "About", bn: "আমাদের সম্পর্কে", ar: "عن", href: "/about" },
+  { label: "Home", href: "/" },
+  { label: "Books", href: "/books" },
+  { label: "Writers", href: "/writers" },
+  { label: "Publishers", href: "/publishers" },
+  { label: "Categories", href: "/categories" },
+  { label: "About", href: "/about" },
 ];
 
-const langLabels = ["বাংলা", "English", "العربية"];
+const langLabels = ["Bangla", "English", "Arabic"];
 
 export default function Header() {
   const { cart } = useCart();
   const { language, changeLanguage } = useLanguage();
   const { data: session } = useSession();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const getLabel = (link) => {
-    if (language === 0) return link.bn;
-    if (language === 2) return link.ar;
-    return link.en;
+  const closeMenus = () => {
+    setLangOpen(false);
+    setAccountOpen(false);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    router.push(`/books?title=${encodeURIComponent(q)}`);
+    setSearchQuery("");
+    setMobileOpen(false);
   };
 
   return (
-    <header className="w-full sticky top-0 left-0 z-30">
-      {/* Top bar */}
+    <header className="sticky top-0 z-50 w-full shadow-[0_2px_18px_rgba(0,0,0,0.08)]">
       <div className="bg-black text-white">
-        <div className="container flex flex-col gap-2 py-2 text-sm font-medium md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-4 text-gray-100">
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-gray-300" />
+        <div className="container flex flex-col gap-2 py-2 text-xs font-medium md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-4 text-white/75">
+            <a href="tel:+8801749669155" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+              <Phone className="h-3.5 w-3.5" />
               <span>+8801749-669155</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-gray-300" />
+            </a>
+            <a href="mailto:maktabatulamjad@gmail.com" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+              <Mail className="h-3.5 w-3.5" />
               <span>maktabatulamjad@gmail.com</span>
-            </div>
+            </a>
           </div>
-          <div className="flex flex-wrap items-center gap-5 text-gray-100">
-            <Link href="/cart" className="flex items-center gap-2 hover:text-primary transition-colors">
-              <ShoppingCart className="h-4 w-4" />
-              <span>Cart ({cart.length})</span>
+
+          <div className="flex flex-wrap items-center gap-4 text-white/75">
+            <Link href="/cart" className="flex items-center gap-1.5 hover:text-primary transition-colors">
+              <ShoppingCart className="h-3.5 w-3.5" />
+              <span>Cart</span>
+              {cart.length > 0 && (
+                <span className="flex h-4 min-w-4 items-center justify-center bg-red px-1 text-[10px] font-bold text-white">
+                  {cart.length}
+                </span>
+              )}
             </Link>
 
-            {/* Language switcher */}
             <div className="relative">
               <button
-                onClick={() => { setLangOpen(!langOpen); setAccountOpen(false); }}
-                className="flex items-center gap-1 hover:text-primary transition-colors"
+                type="button"
+                onClick={() => {
+                  setLangOpen((open) => !open);
+                  setAccountOpen(false);
+                }}
+                className="flex items-center gap-1.5 hover:text-primary transition-colors"
               >
-                <span>{langLabels[language]}</span>
-                <ChevronDown className="h-3 w-3" />
+                <Globe className="h-3.5 w-3.5" />
+                <span>{langLabels[language] || "English"}</span>
+                <ChevronDown className={`h-3 w-3 transition-transform ${langOpen ? "rotate-180" : ""}`} />
               </button>
               {langOpen && (
-                <div className="absolute top-full right-0 mt-1 bg-white text-black shadow-lg border min-w-[120px]">
-                  {langLabels.map((label, i) => (
+                <div className="absolute right-0 top-full z-50 mt-2 min-w-36 border border-gray-100 bg-white py-1 text-gray-800 shadow-xl animate-slideDown">
+                  {langLabels.map((label, index) => (
                     <button
-                      key={i}
-                      onClick={() => { changeLanguage(i); setLangOpen(false); }}
-                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${language === i ? "text-primary font-semibold" : ""}`}
+                      key={label}
+                      type="button"
+                      onClick={() => {
+                        changeLanguage(index);
+                        setLangOpen(false);
+                      }}
+                      className={`flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-green-50 transition-colors ${
+                        language === index ? "font-semibold text-primary" : ""
+                      }`}
                     >
+                      <span className={`h-1.5 w-1.5 ${language === index ? "bg-primary" : "bg-gray-200"}`} />
                       {label}
                     </button>
                   ))}
@@ -76,35 +117,55 @@ export default function Header() {
               )}
             </div>
 
-            {/* Account */}
             <div className="relative">
               <button
-                onClick={() => { setAccountOpen(!accountOpen); setLangOpen(false); }}
-                className="flex items-center gap-1 hover:text-primary transition-colors"
+                type="button"
+                onClick={() => {
+                  setAccountOpen((open) => !open);
+                  setLangOpen(false);
+                }}
+                className="flex items-center gap-1.5 hover:text-primary transition-colors"
               >
-                <User className="h-4 w-4" />
-                <span>{session?.user?.name || "Account"}</span>
-                <ChevronDown className="h-3 w-3" />
+                <User className="h-3.5 w-3.5" />
+                <span className="max-w-24 truncate">{session?.user?.name?.split(" ")[0] || "Account"}</span>
+                <ChevronDown className={`h-3 w-3 transition-transform ${accountOpen ? "rotate-180" : ""}`} />
               </button>
               {accountOpen && (
-                <div className="absolute top-full right-0 mt-1 bg-white text-black shadow-lg border min-w-[140px]">
+                <div className="absolute right-0 top-full z-50 mt-2 min-w-44 border border-gray-100 bg-white py-1 text-gray-800 shadow-xl animate-slideDown">
                   {session ? (
                     <>
-                      <Link href="/user" className="block px-4 py-2 text-sm hover:bg-gray-100">My Orders</Link>
+                      <div className="border-b border-gray-100 px-4 py-3">
+                        <p className="truncate text-xs font-bold text-gray-900">{session.user?.name}</p>
+                        <p className="truncate text-[11px] text-gray-500">{session.user?.email}</p>
+                      </div>
+                      <Link href="/user" onClick={closeMenus} className="block px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
+                        My Account
+                      </Link>
                       {session.user?.role === "admin" && (
-                        <Link href="/admin" className="block px-4 py-2 text-sm hover:bg-gray-100">Admin Panel</Link>
+                        <Link href="/admin" onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold text-primary hover:bg-green-50 transition-colors">
+                          Admin Panel
+                        </Link>
                       )}
                       <button
-                        onClick={() => signOut()}
-                        className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red"
+                        type="button"
+                        onClick={() => {
+                          signOut({ callbackUrl: "/" });
+                          closeMenus();
+                        }}
+                        className="flex w-full items-center gap-2 border-t border-gray-100 px-4 py-2.5 text-left text-sm text-red hover:bg-red/5 transition-colors"
                       >
-                        <LogOut className="h-3 w-3" /> Sign Out
+                        <LogOut className="h-3.5 w-3.5" />
+                        Sign Out
                       </button>
                     </>
                   ) : (
                     <>
-                      <Link href="/auth/signin" className="block px-4 py-2 text-sm hover:bg-gray-100">Sign In</Link>
-                      <Link href="/auth/signup" className="block px-4 py-2 text-sm hover:bg-gray-100">Sign Up</Link>
+                      <Link href="/auth/signin" onClick={closeMenus} className="block px-4 py-2.5 text-sm hover:bg-green-50 transition-colors">
+                        Sign In
+                      </Link>
+                      <Link href="/auth/signup" onClick={closeMenus} className="block px-4 py-2.5 text-sm font-semibold text-primary hover:bg-green-50 transition-colors">
+                        Create Account
+                      </Link>
                     </>
                   )}
                 </div>
@@ -114,43 +175,88 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main nav */}
-      <nav className="bg-primary py-2">
-        <div className="container flex justify-between items-center">
-          <Link href="/">
-            <img src="https://i.ibb.co/0sPhz6P/logo.png" className="h-6 md:h-8 lg:h-10" alt="Maktabatul Amzad" />
+      <nav className="bg-primary text-white">
+        <div className="container grid min-h-16 grid-cols-[auto_1fr_auto] items-center gap-4">
+          <Link href="/" onClick={closeMenus} className="flex items-center gap-2 pr-2">
+            <span className="flex h-10 w-10 items-center justify-center bg-white text-lg font-black text-primary">MA</span>
+            <span className="hidden text-sm font-black uppercase tracking-[0.12em] sm:block">
+              Maktabatul Amzad
+            </span>
           </Link>
 
-          {/* Desktop menu */}
-          <ul className="hidden md:flex items-center space-x-2 md:space-x-4 text-white font-medium">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="text-md lg:text-lg capitalize hover:text-gold transition-colors">
-                  {getLabel(link)}
-                </Link>
-              </li>
-            ))}
+          <ul className="hidden items-center justify-center gap-1 lg:flex">
+            {navLinks.map((link) => {
+              const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`group relative inline-flex px-3 py-5 text-sm font-semibold transition-colors ${
+                      active ? "text-white" : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {link.label}
+                    <span className={`absolute bottom-0 left-3 right-3 h-[3px] bg-white transition-transform duration-200 ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
-          {/* Mobile menu toggle */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="block md:hidden text-white">
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="flex items-center justify-end gap-2">
+            <form onSubmit={handleSearch} className="hidden h-10 items-center border border-white/25 bg-white/10 transition-colors focus-within:border-white md:flex">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search books..."
+                className="h-full w-48 bg-transparent px-3 text-sm text-white outline-none placeholder:text-white/60 xl:w-56"
+              />
+              <button type="submit" className="flex h-full w-10 items-center justify-center bg-black/15 hover:bg-black/25 transition-colors">
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
+
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen((open) => !open);
+                closeMenus();
+              }}
+              className="flex h-10 w-10 items-center justify-center bg-black/15 hover:bg-black/25 transition-colors lg:hidden"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden bg-primary border-t border-green-700">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-6 py-3 text-white hover:bg-green-700 capitalize"
-              >
-                {getLabel(link)}
-              </Link>
-            ))}
+          <div className="border-t border-white/10 bg-primary pb-3 lg:hidden animate-slideDown">
+            <form onSubmit={handleSearch} className="container mt-3 flex border border-white/25 bg-white/10">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search books..."
+                className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-white outline-none placeholder:text-white/60"
+              />
+              <button type="submit" className="px-3 text-white">
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
+            <div className="container mt-3 grid gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-3 py-2 text-sm font-semibold text-white/90 hover:bg-black/10 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </nav>

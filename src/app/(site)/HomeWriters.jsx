@@ -1,25 +1,22 @@
 "use client";
+
 import Link from "next/link";
 import HorizontalSlider from "@/app/components/HorizontalSlider";
 import WriterCard from "@/components/cards/WriterCard";
-import { useLanguage } from "@/context/LanguageContext";
 
 export default function HomeWriters({ writers = [] }) {
-  const { language } = useLanguage();
   return (
     <section className="mb-12">
-      <div className="container p-2 md:p-5 box-shadow rounded-sm bg-gray-100">
-        <div className="flex justify-between items-center mb-2">
-          <h3 className="text-xl font-medium">
-            {language === 0 ? "লেখক" : language === 2 ? "الكاتب" : "Writers"}
-          </h3>
-          <Link href="/writers" className="text-lg hover:text-primary hover:border-b border-primary">
+      <div className="container section-panel">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="section-heading">Writers</h3>
+          <Link href="/writers" className="text-sm font-semibold text-primary hover:text-red transition-colors">
             See All
           </Link>
         </div>
         <HorizontalSlider>
           {writers.map((writer) => (
-            <div key={writer._id} className="flex-none w-40">
+            <div key={writer._id} className="flex-none w-44">
               <WriterCard writer={writer} />
             </div>
           ))}

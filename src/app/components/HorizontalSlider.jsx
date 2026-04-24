@@ -4,7 +4,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function HorizontalSlider({ children, autoplay = false, slidesToShow = 6 }) {
+export default function HorizontalSlider({ children, autoplay = false }) {
   const plugins = autoplay ? [Autoplay({ delay: 2500 })] : [];
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
@@ -23,15 +23,15 @@ export default function HorizontalSlider({ children, autoplay = false, slidesToS
       </div>
       <button
         onClick={scrollPrev}
-        className="absolute top-1/3 left-0 md:-left-4 h-16 w-7 bg-white shadow-xl flex justify-center items-center z-10"
+        className="absolute left-0 top-1/3 z-10 flex h-14 w-8 items-center justify-center bg-white text-black shadow-xl hover:bg-primary hover:text-white md:-left-4 transition-colors"
       >
-        <ChevronLeft className="text-black h-5 w-5" />
+        <ChevronLeft className="h-5 w-5" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute top-1/3 right-0 md:-right-4 h-16 w-7 bg-white shadow-xl flex justify-center items-center z-10"
+        className="absolute right-0 top-1/3 z-10 flex h-14 w-8 items-center justify-center bg-white text-black shadow-xl hover:bg-primary hover:text-white md:-right-4 transition-colors"
       >
-        <ChevronRight className="text-black h-5 w-5" />
+        <ChevronRight className="h-5 w-5" />
       </button>
     </div>
   );

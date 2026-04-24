@@ -4,17 +4,11 @@ import { Trash2 } from "lucide-react";
 import PageTitle from "@/app/components/PageTitle";
 import { useCart } from "@/context/CartContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { useState, useEffect } from "react";
 
 export default function CartClient() {
   const { cart, handleDeleteCartItem } = useCart();
   const { language } = useLanguage();
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    setTotalPrice(total);
-  }, [cart]);
+  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <section className="container">

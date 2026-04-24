@@ -1,25 +1,27 @@
 "use client";
+
 import Link from "next/link";
 import HorizontalSlider from "@/app/components/HorizontalSlider";
 import BookCard from "@/components/cards/BookCard";
-import { useLanguage } from "@/context/LanguageContext";
 
 export default function HomeOurBooks({ books = [] }) {
-  const { language } = useLanguage();
   const maktabatulBooks = books.filter(
-    (b) => b.publisherDetails?.[0]?.name?.[1]?.toLowerCase() === "maktabatul amzad"
+    (book) => book.publisherDetails?.[0]?.name?.[1]?.toLowerCase() === "maktabatul amzad"
   );
   const displayBooks = maktabatulBooks.length > 0 ? maktabatulBooks : books;
 
   return (
     <section className="mb-12">
-      <div className="container p-5 bg-gray-100 relative box-shadow">
-        <h3 className="text-xl font-medium mb-3">
-          {language === 0 ? "মাকতাবাতুল আমজাদ" : language === 2 ? "مكتبة الامجد" : "Maktabatul Amzad"}
-        </h3>
+      <div className="container section-panel">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="section-heading">Maktabatul Amzad Books</h3>
+          <Link href="/books" className="text-sm font-semibold text-primary hover:text-red transition-colors">
+            See All
+          </Link>
+        </div>
         <HorizontalSlider autoplay>
           {displayBooks.map((book) => (
-            <div key={book._id} className="flex-none w-40">
+            <div key={book._id} className="flex-none w-48">
               <BookCard book={book} />
             </div>
           ))}

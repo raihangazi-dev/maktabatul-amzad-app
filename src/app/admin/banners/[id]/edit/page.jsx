@@ -62,7 +62,7 @@ export default function EditBanner() {
           <label className="text-sm">Banner Image</label>
           <input type="file" accept="image/*" onChange={handleImageUpload} className="border p-2 w-full mt-1" />
           {uploading && <p className="text-xs text-gray-500 mt-1">Uploading...</p>}
-          {thumbUrl && <img src={thumbUrl} className="h-24 mt-2 object-cover rounded" />}
+          {thumbUrl && <img src={thumbUrl} className="h-24 mt-2 object-cover" alt="Banner preview" />}
           <input {...register("thumbUrl")} placeholder="Or paste image URL" className="border p-2 w-full mt-2 text-sm" />
         </div>
         <div className="grid grid-cols-2 gap-3">

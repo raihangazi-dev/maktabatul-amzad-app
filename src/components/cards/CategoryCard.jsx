@@ -7,7 +7,7 @@ export default function CategoryCard({ category }) {
   return (
     <Link
       href={`/categories/${category.categoryId}`}
-      className="py-1.5 md:py-3 px-4 md:px-8 border border-primary rounded-md hover:bg-primary hover:text-white text-sm md:text-base transition-colors"
+      className="border border-primary/30 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:border-primary hover:bg-primary hover:text-white md:px-7 md:py-3 md:text-base transition-all duration-150 hover:-translate-y-0.5"
     >
       {category.name?.[language] || category.name?.[1] || "Category"}
     </Link>

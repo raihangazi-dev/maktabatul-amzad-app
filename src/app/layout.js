@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Maktabatul Amzad",
-  description: "Islamic books store — browse books, writers, and publishers",
+  description: "Islamic books store - browse books, writers, and publishers",
 };
 
 export default function RootLayout({ children }) {
