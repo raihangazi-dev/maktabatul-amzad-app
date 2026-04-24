@@ -30,6 +30,7 @@ const navLinks = [
   { label: "SubCategory List", href: "/admin/subcategories", icon: FolderTree },
   { label: "Add SubCategory", href: "/admin/subcategories/add", icon: FolderTree },
   { label: "Order List", href: "/admin/orders", icon: ShoppingBag },
+  { label: "User Management", href: "/admin/users", icon: User },
 ];
 
 export default function AdminLayout({ children }) {

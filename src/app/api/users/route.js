@@ -8,9 +8,12 @@ export async function GET(request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const email = searchParams.get("email");
-    if (!email) return NextResponse.json({ error: "Email required" }, { status: 400 });
-    const user = await User.findOne({ email }).select("-password").lean();
-    return NextResponse.json(user);
+    if (email) {
+      const user = await User.findOne({ email }).select("-password").lean();
+      return NextResponse.json(user);
+    }
+    const users = await User.find().select("-password").sort({ _id: -1 }).lean();
+    return NextResponse.json(users);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
