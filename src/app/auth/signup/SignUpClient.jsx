@@ -25,13 +25,20 @@ export default function SignUpClient() {
       });
       const data = await res.json();
       if (data.message === "User Already Exist") {
-        toast.error("Email already registered. Please sign in.");
+        toast.error("This email is already registered. Please sign in.");
       } else if (data.insertedId) {
         const signInRes = await signIn("credentials", { email, password, redirect: false });
-        if (!signInRes?.error) {
+        if (signInRes?.error) {
+          toast.success("Account created! Please sign in.");
+          router.push("/auth/signin");
+        } else {
           toast.success("Account created successfully!");
           router.push("/");
         }
+      } else if (data.error) {
+        toast.error(data.error);
+      } else {
+        toast.error("Registration failed. Please try again.");
       }
     } catch {
       toast.error("Registration failed");

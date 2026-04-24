@@ -276,3 +276,68 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
 }
+
+/* ============ ADMIN FORM AUTO-STYLE ============ */
+/* All inputs/selects/textareas inside admin pages get polished look automatically */
+.admin-content input[type="text"],
+.admin-content input[type="email"],
+.admin-content input[type="number"],
+.admin-content input[type="password"],
+.admin-content input[type="url"],
+.admin-content input[type="file"],
+.admin-content select,
+.admin-content textarea {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  outline: none;
+  background: white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-size: 0.875rem;
+  color: #111827;
+  font-family: inherit;
+}
+.admin-content input:focus,
+.admin-content select:focus,
+.admin-content textarea:focus {
+  border-color: #108D41;
+  box-shadow: 0 0 0 3px rgba(16, 141, 65, 0.1);
+}
+.admin-content label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+}
+/* Page header sections */
+.admin-content > div > div:first-child {
+  border-bottom-width: 1px;
+  border-color: #e5e7eb;
+}
+.admin-content h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+/* Action buttons in admin list pages */
+.admin-content a[href*="/add"] {
+  transition: background 0.14s, transform 0.08s;
+}
+.admin-content a[href*="/add"]:active {
+  transform: scale(0.97);
+}
+/* Delete/action icon buttons */
+.admin-content table button {
+  transition: color 0.14s, transform 0.1s;
+}
+.admin-content table button:hover {
+  transform: scale(1.15);
+}
+/* Admin page wrapper padding */
+.admin-content > div {
+  padding: 1.5rem;
+}
+/* Collapse nested override for tables */
+.admin-content > div > table,
+.admin-content > div > div > table {
+  padding: 0;
+}

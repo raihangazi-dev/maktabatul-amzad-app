@@ -26,11 +26,12 @@ export async function POST(request) {
     const existing = await User.findOne({ email: body.email });
     if (existing) return NextResponse.json({ message: "User Already Exist" });
     if (body.password) {
-      body.password = await bcrypt.hash(body.password, 10);
+      body.password = await bcrypt.hash(String(body.password), 10);
     }
     const user = await User.create(body);
     return NextResponse.json({ insertedId: user._id }, { status: 201 });
   } catch (error) {
+    console.error("[POST /api/users] Error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
