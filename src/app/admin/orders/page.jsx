@@ -55,7 +55,7 @@ export default function AdminOrderList() {
           </thead>
           <tbody>
             {orders.map((o, i) => {
-              const total = (o.orders || []).reduce((s, b) => s + b.price * b.items, 0) + (o.deliveryCharge || 0);
+              const total = (o.items || []).reduce((s, b) => s + b.price * b.qty, 0) + (o.deliveryCharge || 0);
               return (
                 <>
                   <tr key={o._id} className="hover:bg-gray-50">
@@ -64,7 +64,7 @@ export default function AdminOrderList() {
                       <button onClick={() => setExpanded(expanded === o._id ? null : o._id)} className="flex items-center gap-1 text-left font-medium text-blue-600 hover:underline">
                         {o.name} <ChevronDown className={`h-3 w-3 transition-transform ${expanded === o._id ? "rotate-180" : ""}`} />
                       </button>
-                      <div className="text-xs text-gray-400">{o.mail}</div>
+                      <div className="text-xs text-gray-400">{o.email}</div>
                     </td>
                     <td className="p-2 border">{o.phone}</td>
                     <td className="p-2 border">{o.fullAddress?.district}</td>
@@ -78,7 +78,7 @@ export default function AdminOrderList() {
                         {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </td>
-                    <td className="p-2 border text-xs text-gray-500">{o.timestamp ? new Date(o.timestamp).toLocaleDateString() : "—"}</td>
+                    <td className="p-2 border text-xs text-gray-500">{o.createdAt ? new Date(o.createdAt).toLocaleDateString() : "—"}</td>
                     <td className="p-2 border text-center"><button onClick={() => handleDelete(o._id)} className="text-red"><Trash2 className="h-4 w-4" /></button></td>
                   </tr>
                   {expanded === o._id && (
@@ -90,12 +90,12 @@ export default function AdminOrderList() {
                         <table className="w-full text-xs border-collapse">
                           <thead><tr className="bg-white"><th className="text-left p-1 border">Book</th><th className="p-1 border">Qty</th><th className="p-1 border text-right">Price</th><th className="p-1 border text-right">Subtotal</th></tr></thead>
                           <tbody>
-                            {(o.orders || []).map((book, bi) => (
+                            {(o.items || []).map((book, bi) => (
                               <tr key={bi}>
                                 <td className="p-1 border">{book.title?.[1] || book.title?.[0] || book.bookId}</td>
-                                <td className="p-1 border text-center">{book.items}</td>
+                                <td className="p-1 border text-center">{book.qty}</td>
                                 <td className="p-1 border text-right">৳{book.price}</td>
-                                <td className="p-1 border text-right">৳{book.price * book.items}</td>
+                                <td className="p-1 border text-right">৳{book.price * book.qty}</td>
                               </tr>
                             ))}
                             <tr className="font-medium">

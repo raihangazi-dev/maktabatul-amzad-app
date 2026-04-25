@@ -24,7 +24,7 @@ export default function AdminEditorList() {
         <tbody>
           {editors.map((e, i) => (
             <tr key={e._id} className="hover:bg-gray-50">
-              <td className="p-2 border">{i + 1}</td><td className="p-2 border">{e.name}</td><td className="p-2 border text-xs text-gray-500">{e.editorId}</td>
+              <td className="p-2 border">{i + 1}</td><td className="p-2 border">{Array.isArray(e.name) ? (e.name[1] || e.name[0]) : e.name}</td><td className="p-2 border text-xs text-gray-500">{e.editorId}</td>
               <td className="p-2 border"><div className="flex gap-2 justify-center"><Link href={`/admin/editors/${e.editorId}/edit`} className="text-blue-600"><Pencil className="h-4 w-4" /></Link><button onClick={() => handleDelete(e.editorId)} className="text-red"><Trash2 className="h-4 w-4" /></button></div></td>
             </tr>
           ))}

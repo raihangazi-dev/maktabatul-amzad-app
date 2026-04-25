@@ -41,7 +41,7 @@ export default function UserOrders() {
       <h2 className="text-2xl font-bold mb-6">My Orders</h2>
       <div className="space-y-4">
         {orders.map((o, i) => {
-          const total = (o.orders || []).reduce((s, b) => s + b.price * b.items, 0) + (o.deliveryCharge || 0);
+          const total = (o.items || []).reduce((s, b) => s + b.price * b.qty, 0) + (o.deliveryCharge || 0);
           const isOpen = expanded === o._id;
           return (
             <div key={o._id} className="bg-white border rounded shadow-sm">
@@ -52,8 +52,8 @@ export default function UserOrders() {
                 <div className="flex items-center gap-4">
                   <span className="text-sm text-gray-400">#{i + 1}</span>
                   <div>
-                    <p className="font-medium text-sm">{o.orders?.length} item(s)</p>
-                    <p className="text-xs text-gray-400">{o.timestamp ? new Date(o.timestamp).toLocaleDateString() : ""}</p>
+                    <p className="font-medium text-sm">{o.items?.length} item(s)</p>
+                    <p className="text-xs text-gray-400">{o.createdAt ? new Date(o.createdAt).toLocaleDateString() : ""}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -70,12 +70,12 @@ export default function UserOrders() {
                   <table className="w-full text-xs border-collapse">
                     <thead><tr className="bg-gray-50"><th className="text-left p-2 border">Book</th><th className="p-2 border">Qty</th><th className="p-2 border text-right">Price</th><th className="p-2 border text-right">Subtotal</th></tr></thead>
                     <tbody>
-                      {(o.orders || []).map((book, bi) => (
+                      {(o.items || []).map((book, bi) => (
                         <tr key={bi}>
                           <td className="p-2 border">{book.title?.[1] || book.title?.[0] || book.bookId}</td>
-                          <td className="p-2 border text-center">{book.items}</td>
+                          <td className="p-2 border text-center">{book.qty}</td>
                           <td className="p-2 border text-right">৳{book.price}</td>
-                          <td className="p-2 border text-right">৳{book.price * book.items}</td>
+                          <td className="p-2 border text-right">৳{book.price * book.qty}</td>
                         </tr>
                       ))}
                       <tr><td colSpan={3} className="p-2 border text-right text-gray-500">Delivery</td><td className="p-2 border text-right">৳{o.deliveryCharge || 0}</td></tr>

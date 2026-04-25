@@ -16,11 +16,11 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   try {
     await connectDB();
-    const { name } = await request.json();
+    const body = await request.json();
     const translator = await Translator.findOneAndUpdate(
       { translatorId: params.translatorId },
-      { $set: { name } },
-      { new: true, upsert: true }
+      { $set: body },
+      { new: true }
     );
     return NextResponse.json(translator);
   } catch (error) {

@@ -26,16 +26,21 @@ export default function ConfirmOrderClient() {
   const onSubmit = async (data) => {
     setSubmitting(true);
     const orderDetails = {
+      userId: session?.user?.id || "",
       name: data.name,
-      mail: data.mail,
+      email: data.email,
       fullAddress: { district: data.district, city: data.city, zip: data.zip, moreDetails: data.address },
       phone: data.phone,
-      orders: cart.map((item) => ({ bookId: item._id, title: item.title, items: item.quantity, price: item.price })),
+      items: cart.map((item) => ({ bookId: item._id, title: item.title, qty: item.quantity, price: item.price })),
       deliveryCharge,
       status: "pending",
     };
     try {
-      const res = await fetch("/api/orders", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(orderDetails) });
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderDetails),
+      });
       const result = await res.json();
       if (result.insertedId) {
         toast.success("Order placed successfully!");
@@ -105,8 +110,8 @@ export default function ConfirmOrderClient() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm mb-1">Email</label>
-                <input {...register("mail", { required: true })} defaultValue={session?.user?.email} className="py-1 px-3 border w-full focus:outline-none focus:border-primary" />
-                {errors.mail && <p className="text-red text-sm">Email is required</p>}
+                <input {...register("email", { required: true })} defaultValue={session?.user?.email} className="py-1 px-3 border w-full focus:outline-none focus:border-primary" />
+                {errors.email && <p className="text-red text-sm">Email is required</p>}
               </div>
               <div>
                 <label className="block text-sm mb-1">Phone</label>

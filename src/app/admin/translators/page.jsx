@@ -24,7 +24,7 @@ export default function AdminTranslatorList() {
         <tbody>
           {translators.map((t, i) => (
             <tr key={t._id} className="hover:bg-gray-50">
-              <td className="p-2 border">{i + 1}</td><td className="p-2 border">{t.name}</td><td className="p-2 border text-xs text-gray-500">{t.translatorId}</td>
+              <td className="p-2 border">{i + 1}</td><td className="p-2 border">{Array.isArray(t.name) ? (t.name[1] || t.name[0]) : t.name}</td><td className="p-2 border text-xs text-gray-500">{t.translatorId}</td>
               <td className="p-2 border"><div className="flex gap-2 justify-center"><Link href={`/admin/translators/${t.translatorId}/edit`} className="text-blue-600"><Pencil className="h-4 w-4" /></Link><button onClick={() => handleDelete(t.translatorId)} className="text-red"><Trash2 className="h-4 w-4" /></button></div></td>
             </tr>
           ))}

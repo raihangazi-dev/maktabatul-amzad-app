@@ -16,11 +16,11 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   try {
     await connectDB();
-    const { name } = await request.json();
+    const body = await request.json();
     const editor = await Editor.findOneAndUpdate(
       { editorId: params.editorId },
-      { $set: { name } },
-      { new: true, upsert: true }
+      { $set: body },
+      { new: true }
     );
     return NextResponse.json(editor);
   } catch (error) {
