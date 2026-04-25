@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @theme inline {
   --font-sans: var(--font-work-sans);
@@ -6,7 +6,7 @@
 }
 
 :root {
-  --color-primary: #006437;
+  --color-primary: #108D41;
   --color-secondary: #d32f2f;
   --color-tertiary: #8e3c44;
   --color-neutral: #747873;
@@ -65,7 +65,7 @@ body {
 }
 
 .brand-button-primary:hover {
-  background: #004f2c;
+  background: #0C7436;
 }
 
 .brand-button-secondary {

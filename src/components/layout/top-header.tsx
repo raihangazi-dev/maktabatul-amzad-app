@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { ChevronDown, Globe2, Mail, Phone, ShoppingCart, User } from "lucide-react";
@@ -35,7 +35,7 @@ export function TopHeader() {
   }, []);
 
   return (
-    <div className="border-y border-[#006437] bg-[#111111] text-white" ref={headerRef}>
+    <div className="border-y border-[#108D41] bg-[#111111] text-white" ref={headerRef}>
       <div className="mx-auto flex min-h-9 max-w-[1210px] items-center justify-between gap-6 px-4 text-xs font-semibold leading-none lg:px-0">
         <div className="flex flex-wrap items-center gap-6 text-white">
           <span className="flex items-center gap-1.5">
@@ -52,7 +52,7 @@ export function TopHeader() {
           <div className="relative">
             <button
               aria-expanded={openMenu === "language"}
-              className={`flex items-center gap-1.5 transition hover:text-[#00a85a] ${openMenu === "language" ? "text-[#00a85a]" : "text-white"}`}
+              className={`flex items-center gap-1.5 transition hover:text-[#108D41] ${openMenu === "language" ? "text-[#108D41]" : "text-white"}`}
               onClick={() => setOpenMenu((current) => (current === "language" ? null : "language"))}
               type="button"
             >
@@ -68,12 +68,12 @@ export function TopHeader() {
 
                   return (
                     <button
-                      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[#eaf7ef] hover:text-[#006437] ${isActive ? "bg-[#eaf7ef] font-bold text-[#006437]" : "text-[#1f2937]"}`}
+                      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[#eaf7ef] hover:text-[#108D41] ${isActive ? "bg-[#eaf7ef] font-bold text-[#108D41]" : "text-[#1f2937]"}`}
                       key={language}
                       onClick={() => setOpenMenu(null)}
                       type="button"
                     >
-                      <span className={`h-1.5 w-1.5 ${isActive ? "bg-[#006437]" : "bg-[#e5e7eb]"}`} />
+                      <span className={`h-1.5 w-1.5 ${isActive ? "bg-[#108D41]" : "bg-[#e5e7eb]"}`} />
                       {language}
                     </button>
                   );
@@ -85,7 +85,7 @@ export function TopHeader() {
           <div className="relative">
             <button
               aria-expanded={openMenu === "account"}
-              className={`flex items-center gap-1.5 transition hover:text-[#00a85a] ${openMenu === "account" ? "text-[#00a85a]" : "text-white"}`}
+              className={`flex items-center gap-1.5 transition hover:text-[#108D41] ${openMenu === "account" ? "text-[#108D41]" : "text-white"}`}
               onClick={() => setOpenMenu((current) => (current === "account" ? null : "account"))}
               type="button"
             >
@@ -97,7 +97,7 @@ export function TopHeader() {
             {openMenu === "account" ? (
               <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-48 bg-white py-2 text-sm text-[#1f2937] shadow-[0_18px_40px_rgba(0,0,0,0.16)]">
                 <Link
-                  className="flex items-center gap-3 bg-[#eaf7ef] px-4 py-3 text-[#1f2937] transition hover:text-[#006437]"
+                  className="flex items-center gap-3 bg-[#eaf7ef] px-4 py-3 text-[#1f2937] transition hover:text-[#108D41]"
                   href="/cart"
                   onClick={() => setOpenMenu(null)}
                 >
@@ -105,14 +105,14 @@ export function TopHeader() {
                   Cart
                 </Link>
                 <Link
-                  className="block px-4 py-3 text-[#1f2937] transition hover:bg-[#eaf7ef] hover:text-[#006437]"
+                  className="block px-4 py-3 text-[#1f2937] transition hover:bg-[#eaf7ef] hover:text-[#108D41]"
                   href="/login"
                   onClick={() => setOpenMenu(null)}
                 >
                   Sign In
                 </Link>
                 <Link
-                  className="block px-4 py-3 font-bold text-[#006437] transition hover:bg-[#eaf7ef]"
+                  className="block px-4 py-3 font-bold text-[#108D41] transition hover:bg-[#eaf7ef]"
                   href="/register"
                   onClick={() => setOpenMenu(null)}
                 >

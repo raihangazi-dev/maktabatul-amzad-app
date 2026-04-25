@@ -1,20 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { TopHeader } from "@/components/layout/top-header";
 import {
   ArrowLeft,
   ArrowRight,
-  AtSign,
   BookOpen,
-  ChevronRight,
-  Clock,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
   Quote,
-  Search,
-  Send,
   ShieldCheck,
   Sparkles,
   Truck,
@@ -157,26 +146,6 @@ const recentPurchases = [
   { title: "Patience and Gratitude", time: "Purchased 1 hour ago", price: 280 },
 ];
 
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "All Books", href: "/books" },
-  { label: "New Arrivals", href: "/new-arrivals" },
-  { label: "Best Sellers", href: "/best-sellers" },
-  { label: "Publishers", href: "/publishers" },
-  { label: "Authors", href: "/authors" },
-];
-
-const footerCategories = [
-  { label: "Quran & Tafseer", href: "/categories/quran-tafseer" },
-  { label: "Hadith Collection", href: "/categories/hadith" },
-  { label: "Fiqh & Islamic Law", href: "/categories/fiqh" },
-  { label: "Seerah & Biography", href: "/categories/seerah" },
-  { label: "Children's Books", href: "/categories/children-books" },
-  { label: "Arabic Language", href: "/categories/arabic-language" },
-];
-
-const paymentMethods = ["bKash", "Nagad", "Visa", "MasterCard", "COD"];
-
 const formatPrice = (price: number) => `Tk ${price.toLocaleString("en-US")}.00`;
 
 function SectionHeader({ eyebrow, title, href }: { eyebrow?: string; title: string; href?: string }) {
@@ -192,7 +161,7 @@ function SectionHeader({ eyebrow, title, href }: { eyebrow?: string; title: stri
         {href ? (
           <Link
             href={href}
-            className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#263127] transition hover:text-[#006437] sm:flex"
+            className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#263127] transition hover:text-[#108D41] sm:flex"
           >
             View all <ArrowRight className="h-4 w-4" />
           </Link>
@@ -228,7 +197,7 @@ function ProductCard({ book }: { book: Book }) {
         <span className="bg-black px-2 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white">
           {book.category}
         </span>
-        <h3 className="mt-3 font-serif text-xl leading-snug text-[#1f2c22] transition group-hover:text-[#006437]">
+        <h3 className="mt-3 font-serif text-xl leading-snug text-[#1f2c22] transition group-hover:text-[#108D41]">
           {book.title}
         </h3>
         <p className="mt-1 text-sm text-[#747873]">{book.author}</p>
@@ -241,43 +210,6 @@ function ProductCard({ book }: { book: Book }) {
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#f4f7ef] text-[#263127]">
-      <header>
-        <TopHeader />
-
-        <nav className="bg-[#006437] text-white shadow-[0_10px_30px_rgba(0,0,0,0.22)]">
-          <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-            <Link href="/" aria-label="Maktabatul Amzad home" className="inline-flex shrink-0 items-center">
-              <Image
-                src="/images/logos/header-logo.png"
-                alt="Maktabatul Amzad"
-                width={194}
-                height={52}
-                className="h-12 w-auto"
-                priority
-              />
-            </Link>
-            <div className="flex flex-wrap items-center gap-x-9 gap-y-3 text-xs font-bold uppercase tracking-[0.22em] text-white">
-              <Link className="text-white transition hover:text-white/80" href="/">Home</Link>
-              <Link className="text-white transition hover:text-white/80" href="/books">Books</Link>
-              <Link className="text-white transition hover:text-white/80" href="/authors">Writers</Link>
-              <Link className="text-white transition hover:text-white/80" href="/publishers">Publishers</Link>
-              <Link className="text-white transition hover:text-white/80" href="/categories">Categories</Link>
-              <Link className="text-white transition hover:text-white/80" href="/about">About</Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <label className="flex min-w-0 flex-1 items-center gap-3 bg-white/12 px-4 py-3 text-white ring-1 ring-white/10 lg:w-72">
-                <Search className="h-4 w-4 shrink-0" />
-                <input
-                  aria-label="Search books"
-                  className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white"
-                  placeholder="Search for books, author"
-                />
-              </label>
-            </div>
-          </div>
-        </nav>
-      </header>
-
       <section className="six-books-hero relative min-h-[580px] overflow-hidden border-b border-black text-white md:min-h-[650px]">
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,15,15,0.98)_0%,rgba(19,17,15,0.94)_34%,rgba(26,19,15,0.72)_58%,rgba(18,13,10,0.18)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.06)_52%,rgba(0,0,0,0.52)_100%)]" />
@@ -330,7 +262,7 @@ export default function HomePage() {
                 <Link
                   href="/categories"
                   key={category}
-                  className="bg-black px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-[#006437]"
+                  className="bg-black px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-[#108D41]"
                 >
                   {category}
                 </Link>
@@ -358,7 +290,7 @@ export default function HomePage() {
               {newArrivals.map((book) => (
                 <article key={book.title} className="group">
                   <BookCover book={book} compact />
-                  <h3 className="mt-4 font-serif text-xl text-[#263127] group-hover:text-[#006437]">{book.title}</h3>
+                  <h3 className="mt-4 font-serif text-xl text-[#263127] group-hover:text-[#108D41]">{book.title}</h3>
                   <p className="mt-1 text-sm font-extrabold text-[#d32f2f]">{formatPrice(book.price)}</p>
                 </article>
               ))}
@@ -379,7 +311,7 @@ export default function HomePage() {
                   <div className="absolute left-1/2 top-[31%] h-12 w-12 -translate-x-1/2 rounded-full bg-white/75" />
                   <BookOpen className="absolute bottom-5 left-1/2 h-8 w-8 -translate-x-1/2 text-white/75 transition group-hover:text-white" />
                 </div>
-                <h3 className="mt-4 font-serif text-lg text-[#263127] transition group-hover:text-[#006437]">{author.name}</h3>
+                <h3 className="mt-4 font-serif text-lg text-[#263127] transition group-hover:text-[#108D41]">{author.name}</h3>
                 <p className="text-xs text-[#747873]">{author.era}</p>
               </Link>
             ))}
@@ -434,7 +366,7 @@ export default function HomePage() {
             <p className="text-sm text-[#747873]">Oxford Institute of Islamic Studies</p>
           </div>
           <div className="mt-7 flex justify-center gap-2">
-            <span className="h-2 w-2 bg-[#006437]" />
+            <span className="h-2 w-2 bg-[#108D41]" />
             <span className="h-2 w-2 bg-[#d6ddd2]" />
             <span className="h-2 w-2 bg-[#d6ddd2]" />
           </div>
@@ -442,7 +374,7 @@ export default function HomePage() {
       </section>
 
       <section className="px-4 py-14 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-8 bg-[#006437] px-8 py-10 text-white md:grid-cols-[1fr_0.95fr] md:items-center lg:px-12">
+        <div className="mx-auto grid max-w-6xl gap-8 bg-[#108D41] px-8 py-10 text-white md:grid-cols-[1fr_0.95fr] md:items-center lg:px-12">
           <div>
             <h2 className="font-serif text-4xl">Join Our Knowledge Circle</h2>
             <p className="mt-3 text-sm font-semibold text-white/70">Subscribe for exclusive scholarly releases and weekly insights.</p>
@@ -461,134 +393,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="border-t border-[#162018] bg-black px-4 py-14 text-white lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1fr_1.25fr]">
-            <div>
-              <h2 className="text-4xl font-black tracking-[-0.06em] text-white md:text-[2.55rem]">
-                মাকতাবাতুল আমজাদ
-              </h2>
-              <p className="mt-5 text-xs font-medium uppercase tracking-[0.28em] text-[#747873]">
-                Islamic Book Centre - Est. 2005
-              </p>
-              <p className="mt-6 max-w-sm text-base leading-8 text-[#9aa29d]">
-                Bangladesh&apos;s trusted destination for authentic Islamic books in Bangla, Arabic, and English.
-                Serving readers for over two decades.
-              </p>
-              <div className="mt-7 flex gap-3">
-                {[
-                  { icon: AtSign, label: "Email" },
-                  { icon: MessageCircle, label: "Message" },
-                  { icon: Send, label: "Telegram" },
-                  { icon: BookOpen, label: "Catalog" },
-                ].map(({ icon: Icon, label }) => (
-                  <Link
-                    aria-label={label}
-                    className="grid h-10 w-10 place-items-center border border-white/15 text-[#9aa29d] transition hover:border-[#006437] hover:bg-[#006437] hover:text-white"
-                    href="/contact"
-                    key={label}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-base font-extrabold uppercase tracking-[0.22em] text-white">Quick Links</h3>
-              <div className="mt-4 h-px w-24 bg-[#006437]" />
-              <div className="mt-7 grid gap-4">
-                {quickLinks.map((link) => (
-                  <Link
-                    className="group flex items-center gap-2 text-sm text-[#9aa29d] transition hover:text-white"
-                    href={link.href}
-                    key={link.label}
-                  >
-                    <ChevronRight className="h-3.5 w-3.5 text-[#006437] transition group-hover:translate-x-1" />
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-base font-extrabold uppercase tracking-[0.22em] text-white">Categories</h3>
-              <div className="mt-4 h-px w-24 bg-[#006437]" />
-              <div className="mt-7 grid gap-4">
-                {footerCategories.map((category) => (
-                  <Link
-                    className="group flex items-center gap-2 text-sm text-[#9aa29d] transition hover:text-white"
-                    href={category.href}
-                    key={category.label}
-                  >
-                    <ChevronRight className="h-3.5 w-3.5 text-[#006437] transition group-hover:translate-x-1" />
-                    {category.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-base font-extrabold uppercase tracking-[0.22em] text-white">Contact Us</h3>
-              <div className="mt-4 h-px w-24 bg-[#006437]" />
-              <div className="mt-7 grid gap-5 text-sm leading-7 text-[#9aa29d]">
-                <div className="flex gap-4">
-                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-[#006437]" />
-                  <p>123 Islampur Road, Old Dhaka, Bangladesh 1100</p>
-                </div>
-                <div className="flex gap-4">
-                  <Phone className="mt-1 h-4 w-4 shrink-0 text-[#006437]" />
-                  <p>
-                    +880 1700-000000
-                    <br />
-                    +880 2-9570000
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <Mail className="mt-1 h-4 w-4 shrink-0 text-[#006437]" />
-                  <p>info@maktabatulamzad.com</p>
-                </div>
-                <div className="flex gap-4">
-                  <Clock className="mt-1 h-4 w-4 shrink-0 text-[#006437]" />
-                  <p>
-                    Saturday - Thursday: 9am - 9pm
-                    <br />
-                    Friday: Closed during Jumu&apos;ah
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-14 flex flex-col gap-6 border-t border-white/10 pt-7 text-sm text-[#747873] md:flex-row md:items-center md:justify-between">
-            <p>
-              © 2025 Maktabatul Amzad. All rights reserved.{" "}
-              <Link className="text-[#006437] transition hover:text-white" href="/privacy-policy">
-                Privacy Policy
-              </Link>{" "}
-              ·{" "}
-              <Link className="text-[#006437] transition hover:text-white" href="/terms-and-conditions">
-                Terms
-              </Link>
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 text-xs">Accepted:</span>
-              {paymentMethods.map((method) => (
-                <span
-                  className="border border-white/10 px-4 py-2 text-xs font-medium tracking-[0.08em] text-[#9aa29d]"
-                  key={method}
-                >
-                  {method}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      <div className="fixed bottom-5 right-5 hidden gap-3 rounded-full bg-white px-5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[#006437] shadow-[0_20px_50px_rgba(0,0,0,0.2)] ring-1 ring-black/5 lg:flex">
+      <div className="fixed bottom-5 right-5 hidden gap-3 rounded-full bg-white px-5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-[#108D41] shadow-[0_20px_50px_rgba(0,0,0,0.2)] ring-1 ring-black/5 lg:flex">
         <Sparkles className="h-4 w-4 text-[#d32f2f]" /> Authentic Books
-        <ShieldCheck className="h-4 w-4 text-[#006437]" /> Secure
+        <ShieldCheck className="h-4 w-4 text-[#108D41]" /> Secure
         <Truck className="h-4 w-4 text-[#8e3c44]" /> Fast Delivery
       </div>
     </main>
