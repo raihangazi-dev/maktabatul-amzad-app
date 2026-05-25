@@ -4,10 +4,11 @@ import Order from "@/lib/models/Order";
 
 export async function PATCH(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
     const { editedStatus } = await request.json();
     const order = await Order.findByIdAndUpdate(
-      params.id,
+      id,
       { $set: { status: editedStatus } },
       { new: true }
     );
@@ -19,8 +20,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    await Order.findByIdAndDelete(params.id);
+    await Order.findByIdAndDelete(id);
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

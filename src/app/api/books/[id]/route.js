@@ -5,8 +5,9 @@ import { enrichBooks } from "../route";
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    const book = await Book.findById(params.id).lean();
+    const book = await Book.findById(id).lean();
     if (!book) return NextResponse.json({ error: "Not found" }, { status: 404 });
     const [enriched] = await enrichBooks([book]);
     return NextResponse.json(enriched);
@@ -17,9 +18,10 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
     const body = await request.json();
-    const book = await Book.findByIdAndUpdate(params.id, { $set: body }, { new: true });
+    const book = await Book.findByIdAndUpdate(id, { $set: body }, { new: true });
     return NextResponse.json(book);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -28,8 +30,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    await Book.findByIdAndDelete(params.id);
+    await Book.findByIdAndDelete(id);
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -4,8 +4,9 @@ import Writer from "@/lib/models/Writer";
 
 export async function GET(request, { params }) {
   try {
+    const { writerId } = await params;
     await connectDB();
-    const writer = await Writer.findOne({ writerId: params.writerId }).lean();
+    const writer = await Writer.findOne({ writerId }).lean();
     if (!writer) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(writer);
   } catch (error) {
@@ -15,10 +16,11 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const { writerId } = await params;
     await connectDB();
     const { name, desc, image } = await request.json();
     const writer = await Writer.findOneAndUpdate(
-      { writerId: params.writerId },
+      { writerId },
       { $set: { name, desc, image } },
       { new: true, upsert: true }
     );
@@ -30,8 +32,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { writerId } = await params;
     await connectDB();
-    await Writer.findOneAndDelete({ writerId: params.writerId });
+    await Writer.findOneAndDelete({ writerId });
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -4,8 +4,9 @@ import ImportedCountry from "@/lib/models/ImportedCountry";
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    const country = await ImportedCountry.findById(params.id).lean();
+    const country = await ImportedCountry.findById(id).lean();
     if (!country) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(country);
   } catch (error) {
@@ -15,10 +16,11 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
     const { name } = await request.json();
     const country = await ImportedCountry.findByIdAndUpdate(
-      params.id,
+      id,
       { $set: { name } },
       { new: true }
     );
@@ -30,8 +32,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    await ImportedCountry.findByIdAndDelete(params.id);
+    await ImportedCountry.findByIdAndDelete(id);
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

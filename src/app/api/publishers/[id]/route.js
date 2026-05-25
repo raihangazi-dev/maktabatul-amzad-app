@@ -4,8 +4,9 @@ import Publisher from "@/lib/models/Publisher";
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    const publisher = await Publisher.findOne({ publisherId: params.id }).lean();
+    const publisher = await Publisher.findOne({ publisherId: id }).lean();
     if (!publisher) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(publisher);
   } catch (error) {
@@ -15,10 +16,11 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
     const { name, image } = await request.json();
     const publisher = await Publisher.findByIdAndUpdate(
-      params.id,
+      id,
       { $set: { name, image } },
       { new: true }
     );
@@ -30,8 +32,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { id } = await params;
     await connectDB();
-    await Publisher.findByIdAndDelete(params.id);
+    await Publisher.findByIdAndDelete(id);
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

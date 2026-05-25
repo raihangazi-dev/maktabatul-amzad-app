@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-client-main\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-server-main\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\mongodb collections\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-client-main\\\\src\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\components\" -Force | Format-Table Name, @{Name=\"Type\"; Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-client-main\\\\src\" -Recurse -Depth 2 -Force | Where-Object {$_.PSIsContainer} | Select-Object Name, @{Name=\"FullPath\"; Expression={$_.FullName.Substring\\(40\\)}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\" -Recurse -Depth 2 -Force | Where-Object {$_.PSIsContainer} | Select-Object Name | Sort-Object -Unique)",
+      "Bash(head -50 \"C:\\\\Projects\\\\migrate\\\\mongodb collections\\\\maktabatul-amzad.books.json\")",
+      "Read(//c/Projects/migrate/mongodb collections/**)",
+      "Bash(head -30 \"C:\\\\Projects\\\\migrate\\\\mongodb collections\\\\maktabatul-amzad.users.json\")",
+      "Bash(head -30 \"C:\\\\Projects\\\\migrate\\\\mongodb collections\\\\maktabatul-amzad.carts.json\")",
+      "Bash(xargs -I {} basename {})",
+      "Bash(find \"C:\\\\Projects\\\\migrate\" -name \".env*\" -o -name \"*.env.example\" 2>/dev/null)",
+      "Read(//c/Projects/migrate/**)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\\\\\\(site\\)\\\\cart\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell(head -50)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\\\\api\\\\\" -Recurse -File | ForEach-Object { $_.FullName } | Sort-Object)",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\(JSON.stringify\\(Object.keys\\(p.dependencies\\), null, 2\\)\\)\")",
+      "Bash(npm install *)",
+      "Bash(node scripts/check-missing.mjs)",
+      "Bash(node scripts/apply-translations.mjs)",
+      "Bash(node scripts/verify-languages.mjs)",
+      "WebFetch(domain:lovable.dev)",
+      "WebFetch(domain:preview--maktabatul-amzad.lovable.app)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

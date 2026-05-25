@@ -15,7 +15,7 @@ export default function AddWriter() {
     if (data.image?.[0]) {
       const fd = new FormData();
       fd.append("image", data.image[0]);
-      const ir = await fetch(`https://api.imgbb.com/1/upload?key=e1f8cb2a3ec0064d89280dcbe819c1b7`, { method: "POST", body: fd });
+      const ir = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY || "e1f8cb2a3ec0064d89280dcbe819c1b7"}`, { method: "POST", body: fd });
       const id = await ir.json();
       if (id.success) imageUrl = id.data.display_url;
     }

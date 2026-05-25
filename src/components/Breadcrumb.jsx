@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight, Home } from "lucide-react";
+import { useBreadcrumb } from "@/context/BreadcrumbContext";
 
 const LABELS = {
   books: "Books",
@@ -28,14 +29,11 @@ const LABELS = {
   dashboard: "Dashboard",
 };
 
-const isIdSegment = (seg) => {
-  if (LABELS[seg]) return false;
-  if (/^[a-f0-9]{24}$/.test(seg)) return true;
-  return true;
-};
+const isIdSegment = (seg) => !LABELS[seg];
 
-export default function Breadcrumb({ className = "", variant = "site" }) {
+export default function Breadcrumb({ className = "" }) {
   const pathname = usePathname();
+  const { extra } = useBreadcrumb() ?? { extra: [] };
 
   if (pathname === "/" || pathname === "/admin") return null;
 
@@ -43,34 +41,39 @@ export default function Breadcrumb({ className = "", variant = "site" }) {
   const isAdmin = segments[0] === "admin";
 
   const items = [];
-  const baseHref = isAdmin ? "/admin" : "/";
   const baseLabel = isAdmin ? "Dashboard" : "Home";
+  const baseHref  = isAdmin ? "/admin"    : "/";
   items.push({ label: baseLabel, href: baseHref, isBase: true });
 
   let builtPath = "";
-  segments.forEach((seg, i) => {
-    if (isAdmin && i === 0) { builtPath = "/admin"; return; }
+  for (const [i, seg] of segments.entries()) {
+    if (isAdmin && i === 0) { builtPath = "/admin"; continue; }
     builtPath += `/${seg}`;
-    if (isIdSegment(seg)) return;
-    const label = LABELS[seg] || seg.charAt(0).toUpperCase() + seg.slice(1).replace(/-/g, " ");
+    if (isIdSegment(seg)) continue; // skip raw IDs — extra[] will fill them in
+    const label = LABELS[seg] ?? (seg.charAt(0).toUpperCase() + seg.slice(1).replace(/-/g, " "));
     items.push({ label, href: builtPath });
-  });
+  }
+
+  // Append extra crumbs provided by the current page (e.g. category + book title)
+  for (const crumb of extra) {
+    items.push(crumb);
+  }
 
   if (items.length <= 1) return null;
 
   return (
-    <nav aria-label="breadcrumb" className={`flex items-center gap-1 text-sm ${className}`}>
+    <nav aria-label="breadcrumb" className={`flex items-center gap-1 text-sm flex-wrap ${className}`}>
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
         return (
-          <span key={item.href} className="flex items-center gap-1">
-            {idx > 0 && <ChevronRight className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />}
-            {isLast ? (
-              <span className="text-gray-900 font-semibold">{item.label}</span>
+          <span key={`${item.href ?? item.label}-${idx}`} className="flex items-center gap-1">
+            {idx > 0 && <ChevronRight className="h-3.5 w-3.5 flex-shrink-0 text-gray-400" />}
+            {isLast || !item.href ? (
+              <span className="font-semibold text-gray-900">{item.label}</span>
             ) : (
               <Link
                 href={item.href}
-                className="flex items-center gap-1 text-gray-500 hover:text-primary transition-colors duration-150"
+                className="flex items-center gap-1 text-gray-500 transition-colors duration-150 hover:text-primary"
               >
                 {item.isBase && <Home className="h-3.5 w-3.5 flex-shrink-0" />}
                 <span>{item.label}</span>

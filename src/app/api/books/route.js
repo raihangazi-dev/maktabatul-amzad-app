@@ -13,19 +13,21 @@ export async function GET(request) {
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);
-    const title = searchParams.get("title") || "";
+    const title    = searchParams.get("title")    || "";
+    const category = searchParams.get("category") || "";
+    const writer   = searchParams.get("writer")   || "";
     const sort = parseInt(searchParams.get("sort")) || 1;
-    const gte = parseInt(searchParams.get("gte")) || 0;
-    const lte = parseInt(searchParams.get("lte")) || 50000;
+    const gte  = parseInt(searchParams.get("gte"))  || 0;
+    const lte  = parseInt(searchParams.get("lte"))  || 50000;
     const page = parseInt(searchParams.get("page")) || 0;
     const size = parseInt(searchParams.get("size")) || 10;
 
     const query = {
       price: { $gte: gte, $lte: lte },
     };
-    if (title) {
-      query.title = { $regex: title, $options: "i" };
-    }
+    if (title)    query.title    = { $regex: title, $options: "i" };
+    if (category) query.category = category;
+    if (writer)   query.writer   = writer;
 
     const books = await Book.find(query)
       .sort({ price: sort })

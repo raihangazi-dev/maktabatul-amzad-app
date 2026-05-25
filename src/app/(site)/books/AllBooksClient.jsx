@@ -209,7 +209,7 @@ export default function AllBooksClient() {
                 {categories.slice(0, 7).map((category, index) => (
                   <li key={category._id}>
                     <Link href={`/categories/${category.categoryId}`}>
-                      <span>{category.name?.[language] || category.name?.[1] || "Category"}</span>
+                      <span>{(Array.isArray(category.name) ? (category.name[language] || category.name[1] || category.name.find(s => s && s.trim())) : category.name) || "Category"}</span>
                       <span>{Math.max(8, totalBooks - index * 7)}</span>
                     </Link>
                   </li>
@@ -239,7 +239,7 @@ export default function AllBooksClient() {
                 {writers.slice(0, 5).map((writer) => (
                   <li key={writer._id}>
                     <Link href={`/writers/${writer.writerId}`}>
-                      <span>{writer.name?.[language] || writer.name?.[1] || writer.name || "Writer"}</span>
+                      <span>{(Array.isArray(writer.name) ? (writer.name[language] || writer.name[1] || writer.name.find(s => s && s.trim())) : writer.name) || "Writer"}</span>
                     </Link>
                   </li>
                 ))}
@@ -289,7 +289,7 @@ export default function AllBooksClient() {
               </div>
             </div>
 
-            <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-5">
               {loading ? (
                 <div className="col-span-full flex min-h-96 items-center justify-center">
                   <p className="text-gray-500">Loading books...</p>

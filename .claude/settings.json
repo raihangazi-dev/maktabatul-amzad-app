@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\lib\\\\models\\\\\" -Recurse -File | ForEach-Object { $_.FullName } | Sort-Object)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-client-main\\\\src\\\\Pages\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Read(//c/Projects/migrate/maktabatul-amzad-app/src/app/\\(site\\)/writers/**)",
+      "Read(//c/Projects/migrate/maktabatul-amzad-app/src/app/\\(site\\)/categories/**)",
+      "Read(//c/Projects/migrate/maktabatul-amzad-app/src/app/\\(site\\)/publishers/**)",
+      "Bash(Get-ChildItem \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\\\\admin\" -Recurse -Name)",
+      "Bash(Sort-Object)",
+      "PowerShell($bytes = New-Object byte[] 32; \\(New-Object System.Security.Cryptography.RNGCryptoServiceProvider\\).GetBytes\\($bytes\\); [Convert]::ToBase64String\\($bytes\\))",
+      "PowerShell(mongoimport --version 2>&1)",
+      "PowerShell(node -e \"require\\('mongoose'\\); console.log\\('ok'\\)\" 2>&1)",
+      "PowerShell(foreach \\($f in @\\(\"translators\",\"users\",\"writers\"\\)\\) { $content = Get-Content \"C:\\\\Projects\\\\migrate\\\\mongodb collections\\\\maktabatul-amzad.$f.json\" -Raw; $docs = $content | ConvertFrom-Json; Write-Host \"$f`: $\\($docs.Count\\) docs\" })",
+      "PowerShell(Get-ChildItem \"C:\\\\Projects\\\\migrate\\\\maktabatul-amzad-app\\\\src\\\\app\" -Name | Where-Object { $_ -match \"layout|page|global\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/api/books?size=3\" -UseBasicParsing -TimeoutSec 10; Write-Host \"Status: $\\($r.StatusCode\\)\"; $r.Content | ConvertFrom-Json | Select-Object -First 1 | ConvertTo-Json -Depth 3 } catch { Write-Host \"Error: $_\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/api/categories\" -UseBasicParsing -TimeoutSec 10; Write-Host \"Status: $\\($r.StatusCode\\)\"; Write-Host \"Count: $\\(\\($r.Content | ConvertFrom-Json\\).Count\\)\" } catch { Write-Host \"Error: $_\" })",
+      "PowerShell(netstat -ano)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/api/books?size=3\" -UseBasicParsing -TimeoutSec 10; Write-Host \"Status: $\\($r.StatusCode\\)\"; $data = $r.Content | ConvertFrom-Json; Write-Host \"Books returned: $\\($data.Count\\)\"; if \\($data.Count -gt 0\\) { Write-Host \"First book title: $\\($data[0].title[1]\\)\" } } catch { Write-Host \"Error: $_\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/api/writers\" -UseBasicParsing -TimeoutSec 10; $data = $r.Content | ConvertFrom-Json; Write-Host \"Writers: $\\($data.Count\\)\" } catch { Write-Host \"Error: $_\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/api/categories\" -UseBasicParsing -TimeoutSec 10; $data = $r.Content | ConvertFrom-Json; Write-Host \"Categories: $\\($data.Count\\)\" } catch { Write-Host \"Error: $_\" })"
+    ]
+  }
+}

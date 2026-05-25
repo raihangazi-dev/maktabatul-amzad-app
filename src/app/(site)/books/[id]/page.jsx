@@ -1,9 +1,11 @@
 import BookDetailClient from "./BookDetailClient";
+import { getBaseUrl } from "@/lib/baseUrl";
 
 export async function generateMetadata({ params }) {
-  const BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   try {
-    const res = await fetch(`${BASE}/api/books/${params.id}`, { cache: "no-store" });
+    const { id } = await params;
+    const BASE = await getBaseUrl();
+    const res = await fetch(`${BASE}/api/books/${id}`, { cache: "no-store" });
     const book = await res.json();
     return { title: `Maktabatul Amzad - ${book?.title?.[1] || "Book"}` };
   } catch {
@@ -12,8 +14,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BookDetailPage({ params }) {
-  const BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const res = await fetch(`${BASE}/api/books/${params.id}`, { cache: "no-store" });
+  const { id } = await params;
+  const BASE = await getBaseUrl();
+  const res = await fetch(`${BASE}/api/books/${id}`, { cache: "no-store" });
   const book = res.ok ? await res.json() : null;
 
   if (!book) {

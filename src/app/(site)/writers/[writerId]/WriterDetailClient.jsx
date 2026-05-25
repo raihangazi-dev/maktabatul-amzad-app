@@ -1,13 +1,23 @@
 "use client";
+import { useEffect } from "react";
 import { User } from "lucide-react";
 import PageTitle from "@/app/components/PageTitle";
 import BookCard from "@/components/cards/BookCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { useBreadcrumb } from "@/context/BreadcrumbContext";
 
 export default function WriterDetailClient({ writer, books = [] }) {
   const { language } = useLanguage();
-  const name = writer.name?.[language] || writer.name?.[1] || "Writer";
-  const desc = writer.desc?.[language] || writer.desc?.[1] || "";
+  const { setExtra } = useBreadcrumb();
+  const _n = writer.name;
+  const _d = writer.desc;
+  const name = Array.isArray(_n) ? (_n[language] || _n[1] || _n.find(s => s && s.trim()) || "Writer") : (_n || "Writer");
+  const desc = Array.isArray(_d) ? (_d[language] || _d[1] || _d.find(s => s && s.trim()) || "") : (_d || "");
+
+  useEffect(() => {
+    setExtra([{ label: name }]);
+    return () => setExtra([]);
+  }, [name]);
 
   return (
     <section className="container">

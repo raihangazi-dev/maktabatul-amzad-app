@@ -5,53 +5,19 @@ import HomeWriters from "./HomeWriters";
 import HomePublishers from "./HomePublishers";
 import HomeBestSeller from "./HomeBestSeller";
 import HomeAllBooks from "./HomeAllBooks";
-
-const BASE = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
-async function getBanners() {
-  try {
-    const res = await fetch(`${BASE}/api/banners`, { cache: "no-store" });
-    return res.ok ? res.json() : [];
-  } catch { return []; }
-}
-
-async function getBooks() {
-  try {
-    const res = await fetch(`${BASE}/api/books?size=20`, { cache: "no-store" });
-    return res.ok ? res.json() : [];
-  } catch { return []; }
-}
-
-async function getCategories() {
-  try {
-    const res = await fetch(`${BASE}/api/categories`, { cache: "no-store" });
-    return res.ok ? res.json() : [];
-  } catch { return []; }
-}
-
-async function getWriters() {
-  try {
-    const res = await fetch(`${BASE}/api/writers`, { cache: "no-store" });
-    return res.ok ? res.json() : [];
-  } catch { return []; }
-}
-
-async function getPublishers() {
-  try {
-    const res = await fetch(`${BASE}/api/publishers`, { cache: "no-store" });
-    return res.ok ? res.json() : [];
-  } catch { return []; }
-}
+import { getBaseUrl } from "@/lib/baseUrl";
 
 export const metadata = { title: "Maktabatul Amzad - Home" };
 
 export default async function HomePage() {
+  const BASE = await getBaseUrl();
+
   const [banners, books, categories, writers, publishers] = await Promise.all([
-    getBanners(),
-    getBooks(),
-    getCategories(),
-    getWriters(),
-    getPublishers(),
+    fetch(`${BASE}/api/banners`,       { cache: "no-store" }).then(r => r.ok ? r.json() : []).catch(() => []),
+    fetch(`${BASE}/api/books?size=20`, { cache: "no-store" }).then(r => r.ok ? r.json() : []).catch(() => []),
+    fetch(`${BASE}/api/categories`,    { cache: "no-store" }).then(r => r.ok ? r.json() : []).catch(() => []),
+    fetch(`${BASE}/api/writers`,       { cache: "no-store" }).then(r => r.ok ? r.json() : []).catch(() => []),
+    fetch(`${BASE}/api/publishers`,    { cache: "no-store" }).then(r => r.ok ? r.json() : []).catch(() => []),
   ]);
 
   return (

@@ -29,12 +29,12 @@ export default function WritersClient({ writers = [] }) {
         />
       </div>
 
-      <div className="flex flex-wrap justify-center md:justify-start">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((writer) => (
           <WriterCard key={writer._id} writer={writer} />
         ))}
         {filtered.length === 0 && (
-          <p className="text-gray-500 mt-10">No writers found</p>
+          <p className="col-span-full mt-10 text-gray-500">No writers found</p>
         )}
       </div>
     </section>

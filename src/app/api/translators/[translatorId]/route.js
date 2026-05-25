@@ -4,8 +4,9 @@ import Translator from "@/lib/models/Translator";
 
 export async function GET(request, { params }) {
   try {
+    const { translatorId } = await params;
     await connectDB();
-    const translator = await Translator.findOne({ translatorId: params.translatorId }).lean();
+    const translator = await Translator.findOne({ translatorId }).lean();
     if (!translator) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(translator);
   } catch (error) {
@@ -15,10 +16,11 @@ export async function GET(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
+    const { translatorId } = await params;
     await connectDB();
     const { name } = await request.json();
     const translator = await Translator.findOneAndUpdate(
-      { translatorId: params.translatorId },
+      { translatorId },
       { $set: { name } },
       { new: true, upsert: true }
     );
@@ -30,8 +32,9 @@ export async function PATCH(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
+    const { translatorId } = await params;
     await connectDB();
-    await Translator.findOneAndDelete({ translatorId: params.translatorId });
+    await Translator.findOneAndDelete({ translatorId });
     return NextResponse.json({ deletedCount: 1 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

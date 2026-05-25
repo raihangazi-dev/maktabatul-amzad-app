@@ -1,14 +1,22 @@
 "use client";
+import { useEffect } from "react";
 import { BookOpen } from "lucide-react";
 import PageTitle from "@/app/components/PageTitle";
 import BookCard from "@/components/cards/BookCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { useBreadcrumb } from "@/context/BreadcrumbContext";
 
 export default function PublisherDetailClient({ publisher, books = [] }) {
   const { language } = useLanguage();
+  const { setExtra } = useBreadcrumb();
   const name = Array.isArray(publisher.name)
-    ? publisher.name[language] || publisher.name[1]
+    ? (publisher.name[language] || publisher.name[1] || publisher.name.find(s => s && s.trim()))
     : publisher.name;
+
+  useEffect(() => {
+    setExtra([{ label: name }]);
+    return () => setExtra([]);
+  }, [name]);
 
   return (
     <section className="container">

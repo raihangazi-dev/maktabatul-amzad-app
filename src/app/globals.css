@@ -70,23 +70,54 @@ body {
 
 /* ============ BOOK CARD ============ */
 .book-card {
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.18s ease;
-  border: 1px solid #e5e7eb;
-  background: #fff;
+  transition: transform 0.22s ease;
+  border: 0;
+  background: transparent;
 }
 .book-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-  border-color: #108D41;
+  transform: translateY(-3px);
 }
 .book-card-img {
   transition: transform 0.32s ease;
   display: block;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+  transform: scale(1.14);
 }
 .book-card:hover .book-card-img {
-  transform: scale(1.04);
+  transform: scale(1.18);
+}
+
+.category-card-title,
+.category-card-desc {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-card-title {
+  white-space: nowrap;
+}
+
+.category-card-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+@media (max-width: 639px) {
+  .category-card-title,
+  .category-card-desc {
+    max-width: calc(100vw - 4.5rem);
+  }
+
+  .category-card-desc {
+    display: block;
+    white-space: nowrap;
+  }
 }
 
 .books-filter-panel {

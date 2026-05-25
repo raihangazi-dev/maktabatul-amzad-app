@@ -1,11 +1,22 @@
 "use client";
+import { useEffect } from "react";
 import Link from "next/link";
 import PageTitle from "@/app/components/PageTitle";
 import BookCard from "@/components/cards/BookCard";
 import { useLanguage } from "@/context/LanguageContext";
+import { useBreadcrumb } from "@/context/BreadcrumbContext";
 
 export default function CategoryDetailClient({ category, subCategories = [], books = [] }) {
   const { language } = useLanguage();
+  const { setExtra } = useBreadcrumb();
+  const catName = Array.isArray(category.name)
+    ? (category.name[language] || category.name[1] || category.name.find(s => s && s.trim()))
+    : category.name;
+
+  useEffect(() => {
+    setExtra([{ label: catName }]);
+    return () => setExtra([]);
+  }, [catName]);
 
   return (
     <section className="container">

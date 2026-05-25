@@ -18,7 +18,7 @@ export default function HomeAllBooks({ books = [] }) {
               See All
             </Link>
           </div>
-          <div className="flex flex-wrap justify-center">
+          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
             {books.map((book) => (
               <BookCard key={book._id} book={book} />
             ))}

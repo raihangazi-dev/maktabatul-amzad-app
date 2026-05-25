@@ -83,7 +83,7 @@ export default function AddBook() {
       const formData = new FormData();
       formData.append("image", data.image[0]);
       try {
-        const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY || "e1f8cb2a3ec0064d89280dcbe819c1b7"}`, { method: "POST", body: formData });
+        const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY || "e1f8cb2a3ec0064d89280dcbe819c1b7"}`, { method: "POST", body: formData });
         const imgData = await imgRes.json();
         if (imgData.success) imageUrl = imgData.data.display_url;
       } catch { /* continue without image */ }
