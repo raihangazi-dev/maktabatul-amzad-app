@@ -30,8 +30,8 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-[#162018] bg-black px-4 py-14 text-white lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <footer className="border-t border-[#162018] bg-black py-14 text-white">
+      <div className="site-container">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.25fr_1fr_1fr_1.25fr]">
           <div>
             <h2 className="text-4xl font-black tracking-[-0.06em] text-white md:text-[2.55rem]">

@@ -18,7 +18,7 @@ export function SiteHeader() {
       <TopHeader />
 
       <nav className="bg-[#108D41] text-white shadow-[0_10px_30px_rgba(0,0,0,0.22)]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+        <div className="site-container flex flex-col gap-5 py-5 lg:flex-row lg:items-center lg:justify-between">
           <Link href="/" aria-label="Maktabatul Amzad home" className="inline-flex shrink-0 items-center">
             <Image
               src="/images/logos/header-logo.png"

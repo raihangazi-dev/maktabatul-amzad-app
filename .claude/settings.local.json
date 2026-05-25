@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"C:\\\\Projects\\\\maktabatul-amzad-client\")",
+      "Read(//c/Projects/maktabatul-amzad-client/**)",
+      "Bash(Get-ChildItem \"C:\\\\Projects\\\\maktabatul-amzad-client\\\\src\\\\Pages\\\\HomePage\" -Recurse -Filter \"*.jsx\")",
+      "Bash(Select-Object FullName)"
+    ]
+  }
+}

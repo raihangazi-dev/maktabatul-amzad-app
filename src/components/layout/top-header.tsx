@@ -36,7 +36,7 @@ export function TopHeader() {
 
   return (
     <div className="border-y border-[#108D41] bg-[#111111] text-white" ref={headerRef}>
-      <div className="mx-auto flex min-h-9 max-w-[1210px] items-center justify-between gap-6 px-4 text-xs font-semibold leading-none lg:px-0">
+      <div className="site-container flex min-h-9 items-center justify-between gap-6 text-xs font-semibold leading-none">
         <div className="flex flex-wrap items-center gap-6 text-white">
           <span className="flex items-center gap-1.5">
             <Phone className="h-3.5 w-3.5" />

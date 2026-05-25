@@ -2,11 +2,14 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
+  CreditCard,
+  Gift,
   Quote,
+  RotateCcw,
   ShieldCheck,
   Sparkles,
   Truck,
+  type LucideIcon,
 } from "lucide-react";
 
 type Book = {
@@ -114,15 +117,14 @@ const newArrivals: Book[] = [
 ];
 
 const categories = [
-  "Aqeedah",
-  "Fiqh",
-  "Sirah",
-  "Hadith",
-  "History",
-  "Arabic Language",
-  "Spiritual Growth",
-  "Children's Books",
-  "Tasawwuf",
+  { title: "Quran & Tafseer", books: 342, mark: "۞" },
+  { title: "Hadith Collection", books: 215, mark: "ح" },
+  { title: "Fiqh & Islamic Law", books: 189, mark: "فق" },
+  { title: "Seerah & Biography", books: 127, mark: "س" },
+  { title: "Aqeedah", books: 98, mark: "ع" },
+  { title: "Tasawwuf", books: 76, mark: "ت" },
+  { title: "Children's Books", books: 143, mark: "ص" },
+  { title: "Arabic Language", books: 88, mark: "ا" },
 ];
 
 const authors: Author[] = [
@@ -146,7 +148,31 @@ const recentPurchases = [
   { title: "Patience and Gratitude", time: "Purchased 1 hour ago", price: 280 },
 ];
 
+type PromoMessage = {
+  label: string;
+  Icon: LucideIcon;
+  accentClass?: string;
+};
+
+const promoMessages: PromoMessage[] = [
+  { label: "Free delivery on orders above Tk 999", Icon: Gift, accentClass: "text-[#ffbd17]" },
+  { label: "New arrivals every week", Icon: Sparkles },
+  { label: "Authentic Islamic books", Icon: ShieldCheck },
+  { label: "Secure online payment", Icon: CreditCard },
+  { label: "Easy returns", Icon: RotateCcw },
+  { label: "Fast delivery across Bangladesh", Icon: Truck },
+];
+
 const formatPrice = (price: number) => `Tk ${price.toLocaleString("en-US")}.00`;
+
+const getInitials = (name: string) =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
 function SectionHeader({ eyebrow, title, href }: { eyebrow?: string; title: string; href?: string }) {
   return (
@@ -197,13 +223,39 @@ function ProductCard({ book }: { book: Book }) {
         <span className="bg-black px-2 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white">
           {book.category}
         </span>
-        <h3 className="mt-3 font-serif text-xl leading-snug text-[#1f2c22] transition group-hover:text-[#108D41]">
+        <h3
+          className="mt-3 truncate font-serif text-xl leading-snug text-[#1f2c22] transition group-hover:text-[#108D41]"
+          title={book.title}
+        >
           {book.title}
         </h3>
-        <p className="mt-1 text-sm text-[#747873]">{book.author}</p>
+        <p className="mt-1 truncate text-sm text-[#747873]" title={book.author}>
+          {book.author}
+        </p>
         <p className="mt-2 text-base font-extrabold text-[#d32f2f]">{formatPrice(book.price)}</p>
       </div>
     </article>
+  );
+}
+
+function PromoMarquee() {
+  return (
+    <section aria-label="Store benefits" className="home-promo-marquee">
+      <p className="sr-only">{promoMessages.map((item) => item.label).join(". ")}</p>
+      <div aria-hidden="true" className="home-promo-track">
+        {[0, 1].map((groupIndex) => (
+          <div className="home-promo-group" key={groupIndex}>
+            {promoMessages.map(({ label, Icon, accentClass }) => (
+              <div className="home-promo-item" key={`${groupIndex}-${label}`}>
+                <Icon className={`h-4 w-4 shrink-0 ${accentClass ?? "text-white/80"}`} strokeWidth={2.4} />
+                <span>{label}</span>
+                <span className="home-promo-separator" />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -213,7 +265,7 @@ export default function HomePage() {
       <section className="six-books-hero relative min-h-[580px] overflow-hidden border-b border-black text-white md:min-h-[650px]">
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,15,15,0.98)_0%,rgba(19,17,15,0.94)_34%,rgba(26,19,15,0.72)_58%,rgba(18,13,10,0.18)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.06)_52%,rgba(0,0,0,0.52)_100%)]" />
-        <div className="relative mx-auto flex min-h-[580px] max-w-[1440px] items-center px-6 py-20 md:min-h-[650px] lg:px-10">
+        <div className="site-container relative flex min-h-[580px] items-center py-20 md:min-h-[650px]">
           <div className="max-w-[650px]">
             <h1 className="max-w-[560px] font-sans text-[3.35rem] font-extrabold leading-[1.02] tracking-[-0.045em] text-white sm:text-[4.2rem] lg:text-[4.55rem]">
               The Six Books Collection
@@ -227,13 +279,13 @@ export default function HomePage() {
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/shop"
-                className="brand-button brand-button-primary w-full sm:w-[210px]"
+                className="brand-button brand-button-primary w-full sm:w-auto"
               >
-                Browse Collection
+                Browse Collection <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/about"
-                className="brand-button brand-button-neutral w-full sm:w-[150px]"
+                className="brand-button brand-button-neutral w-full sm:w-auto"
               >
                 Learn More
               </Link>
@@ -242,8 +294,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="paper-panel px-4 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <PromoMarquee />
+
+      <section className="paper-panel py-16">
+        <div className="site-container">
           <SectionHeader eyebrow="Featured Partner" title="Maktabatul Amzad Publishers" href="/publishers" />
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {featuredBooks.map((book) => (
@@ -253,74 +307,123 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#edf2e9] px-4 py-16 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.72fr_1.5fr]">
-          <div>
-            <SectionHeader title="Browse Categories" />
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <Link
-                  href="/categories"
-                  key={category}
-                  className="bg-black px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-[#108D41]"
-                >
-                  {category}
-                </Link>
-              ))}
+      <section className="bg-[#f7faf3] py-16">
+        <div className="site-container">
+          <div className="flex items-start justify-between gap-6 border-b border-[#e4e8df] pb-4">
+            <div>
+              <h2 className="font-serif text-3xl leading-tight text-[#111111] md:text-4xl">
+                Browse By <span className="text-[#007a46]">Category</span>
+              </h2>
+              <div className="mt-3 h-1 w-24 bg-[#007a46]" />
             </div>
-            <blockquote className="mt-9 border-l-4 border-[#d32f2f] bg-white px-7 py-8 font-serif text-xl italic leading-relaxed text-[#747873] shadow-sm">
-              The pursuit of knowledge is an obligation upon every Muslim. We curate our collection to ensure authenticity and scholarly rigor.
-              <footer className="mt-5 font-sans text-xs font-bold uppercase tracking-[0.15em] text-[#747873]">Editorial Board</footer>
-            </blockquote>
+            <Link
+              href="/categories"
+              className="mt-3 shrink-0 text-xs font-extrabold uppercase tracking-[0.08em] text-[#007a46] transition hover:text-[#d32f2f]"
+            >
+              All Categories →
+            </Link>
           </div>
 
-          <div>
-            <div className="mb-7 flex items-end justify-between border-b border-[#263127] pb-4">
-              <h2 className="font-serif text-3xl leading-tight text-[#263127] md:text-4xl">New Arrivals</h2>
-              <div className="flex gap-2">
-                <button className="grid h-10 w-10 place-items-center border border-[#263127] text-[#263127] transition hover:bg-[#263127] hover:text-white" aria-label="Previous arrivals">
-                  <ArrowLeft className="h-4 w-4" />
-                </button>
-                <button className="grid h-10 w-10 place-items-center border border-[#263127] text-[#263127] transition hover:bg-[#263127] hover:text-white" aria-label="Next arrivals">
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-            <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
-              {newArrivals.map((book) => (
-                <article key={book.title} className="group">
-                  <BookCover book={book} compact />
-                  <h3 className="mt-4 font-serif text-xl text-[#263127] group-hover:text-[#108D41]">{book.title}</h3>
-                  <p className="mt-1 text-sm font-extrabold text-[#d32f2f]">{formatPrice(book.price)}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl text-center">
-          <h2 className="font-serif text-4xl text-[#263127]">Distinguished Authors</h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-            {authors.map((author) => (
-              <Link href="/authors" key={author.name} className="group block">
-                <div className={`relative aspect-square overflow-hidden bg-gradient-to-br ${author.portraitClass}`}>
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute left-1/2 top-[44%] h-16 w-16 -translate-x-1/2 rounded-full bg-white/70 shadow-inner" />
-                  <div className="absolute left-1/2 top-[31%] h-12 w-12 -translate-x-1/2 rounded-full bg-white/75" />
-                  <BookOpen className="absolute bottom-5 left-1/2 h-8 w-8 -translate-x-1/2 text-white/75 transition group-hover:text-white" />
-                </div>
-                <h3 className="mt-4 font-serif text-lg text-[#263127] transition group-hover:text-[#108D41]">{author.name}</h3>
-                <p className="text-xs text-[#747873]">{author.era}</p>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {categories.map((category) => (
+              <Link
+                href="/categories"
+                key={category.title}
+                className="group flex min-h-[76px] items-center gap-5 border-l-4 border-[#007a46] bg-white px-4 py-3 shadow-[0_8px_24px_rgba(17,17,17,0.035)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(17,17,17,0.08)]"
+              >
+                <span className="grid h-12 w-12 shrink-0 place-items-center bg-[#eef4ea] font-serif text-xl font-bold text-[#007a46]">
+                  {category.mark}
+                </span>
+                <span>
+                  <span className="block font-serif text-lg font-bold leading-tight text-[#111111] transition group-hover:text-[#007a46]">
+                    {category.title}
+                  </span>
+                  <span className="mt-1 block text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-[#747873]">
+                    {category.books} Books
+                  </span>
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-black px-4 py-16 text-white lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2">
+      <section className="bg-[#edf2e9] py-16">
+        <div className="site-container">
+          <div className="mb-7 flex items-end justify-between border-b border-[#263127] pb-4">
+            <h2 className="font-serif text-3xl leading-tight text-[#263127] md:text-4xl">New Arrivals</h2>
+            <div className="flex gap-2">
+              <button className="grid h-10 w-10 place-items-center border border-[#263127] text-[#263127] transition hover:bg-[#263127] hover:text-white" aria-label="Previous arrivals">
+                <ArrowLeft className="h-4 w-4" />
+              </button>
+              <button className="grid h-10 w-10 place-items-center border border-[#263127] text-[#263127] transition hover:bg-[#263127] hover:text-white" aria-label="Next arrivals">
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+            {newArrivals.map((book) => (
+              <article key={book.title} className="group">
+                <BookCover book={book} compact />
+                <h3 className="mt-4 truncate font-serif text-xl text-[#263127] group-hover:text-[#108D41]" title={book.title}>
+                  {book.title}
+                </h3>
+                <p className="mt-1 text-sm font-extrabold text-[#d32f2f]">{formatPrice(book.price)}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="site-container">
+          <div className="flex items-start justify-between gap-6 pb-4">
+            <div>
+              <h2 className="font-serif text-3xl leading-tight text-[#111111] md:text-4xl">
+                Distinguished <span className="text-[#007a46]">Authors</span>
+              </h2>
+              <div className="mt-3 h-1 w-24 bg-[#007a46]" />
+            </div>
+            <Link
+              href="/authors"
+              className="mt-3 shrink-0 text-xs font-extrabold uppercase tracking-[0.08em] text-[#007a46] transition hover:text-[#d32f2f]"
+            >
+              All Authors →
+            </Link>
+          </div>
+
+          <div className="mt-4 grid gap-x-5 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            {authors.map((author) => (
+              <Link
+                href="/authors"
+                key={author.name}
+                className="group block text-left"
+              >
+                <span className={`relative block aspect-[4/5] overflow-hidden bg-gradient-to-br ${author.portraitClass} shadow-[0_12px_30px_rgba(17,17,17,0.12)]`}>
+                  <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,255,255,0.2),transparent_22%),linear-gradient(180deg,transparent_45%,rgba(0,0,0,0.48)_100%)]" />
+                  <span className="absolute left-1/2 top-[17%] h-[22%] w-[30%] -translate-x-1/2 rounded-t-full bg-white/72 shadow-[inset_0_-18px_20px_rgba(0,0,0,0.28)]" />
+                  <span className="absolute left-1/2 top-[37%] h-[42%] w-[58%] -translate-x-1/2 rounded-t-[46%] bg-white/16 shadow-[inset_0_18px_24px_rgba(255,255,255,0.08)]" />
+                  <span className="absolute left-1/2 top-[29%] h-px w-[35%] -translate-x-1/2 bg-black/45" />
+                  <span className="absolute bottom-4 left-4 font-serif text-xl font-bold tracking-[0.05em] text-white/84">
+                    {getInitials(author.name)}
+                  </span>
+                </span>
+                <span className="mt-3 block min-w-0">
+                  <span className="block truncate font-serif text-sm font-semibold leading-tight text-[#111111] transition group-hover:text-[#007a46]" title={author.name}>
+                    {author.name}
+                  </span>
+                  <span className="mt-1 block truncate text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-[#747873]" title={author.era}>
+                    {author.era}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-black py-16 text-white">
+        <div className="site-container grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="border-b border-white/20 pb-5 font-serif text-4xl">Best Sellers</h2>
             <div className="mt-7 space-y-5">
@@ -355,41 +458,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-t border-black bg-[#f7faf3] px-4 py-20 text-center lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <Quote className="mx-auto h-10 w-10 fill-[#d32f2f] text-[#d32f2f]" />
-          <p className="mt-7 font-serif text-2xl italic leading-relaxed text-[#263127] md:text-3xl">
-            The quality of the binding and the scholarly selection at Al-Maktaba is unmatched. Finally, a place that treats books with the respect they deserve.
-          </p>
-          <div className="mt-8">
-            <h3 className="font-serif text-lg font-semibold">Dr. Abdullah Mansoor</h3>
-            <p className="text-sm text-[#747873]">Oxford Institute of Islamic Studies</p>
-          </div>
-          <div className="mt-7 flex justify-center gap-2">
-            <span className="h-2 w-2 bg-[#108D41]" />
-            <span className="h-2 w-2 bg-[#d6ddd2]" />
-            <span className="h-2 w-2 bg-[#d6ddd2]" />
+      <section className="border-b border-t border-black bg-[#f7faf3] py-20 text-center">
+        <div className="site-container">
+          <div className="mx-auto max-w-3xl">
+            <Quote className="mx-auto h-10 w-10 fill-[#d32f2f] text-[#d32f2f]" />
+            <p className="mt-7 font-serif text-2xl italic leading-relaxed text-[#263127] md:text-3xl">
+              The quality of the binding and the scholarly selection at Al-Maktaba is unmatched. Finally, a place that treats books with the respect they deserve.
+            </p>
+            <div className="mt-8">
+              <h3 className="font-serif text-lg font-semibold">Dr. Abdullah Mansoor</h3>
+              <p className="text-sm text-[#747873]">Oxford Institute of Islamic Studies</p>
+            </div>
+            <div className="mt-7 flex justify-center gap-2">
+              <span className="h-2 w-2 bg-[#108D41]" />
+              <span className="h-2 w-2 bg-[#d6ddd2]" />
+              <span className="h-2 w-2 bg-[#d6ddd2]" />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 py-14 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-8 bg-[#108D41] px-8 py-10 text-white md:grid-cols-[1fr_0.95fr] md:items-center lg:px-12">
-          <div>
-            <h2 className="font-serif text-4xl">Join Our Knowledge Circle</h2>
-            <p className="mt-3 text-sm font-semibold text-white/70">Subscribe for exclusive scholarly releases and weekly insights.</p>
+      <section className="py-14">
+        <div className="site-container">
+          <div className="grid gap-8 bg-[#108D41] px-8 py-10 text-white md:grid-cols-[1fr_0.95fr] md:items-center lg:px-12">
+            <div>
+              <h2 className="font-serif text-4xl">Join Our Knowledge Circle</h2>
+              <p className="mt-3 text-sm font-semibold text-white/70">Subscribe for exclusive scholarly releases and weekly insights.</p>
+            </div>
+            <form className="flex flex-col gap-3 sm:flex-row">
+              <input
+                aria-label="Email address"
+                className="h-10 flex-1 bg-white px-5 text-sm text-[#263127] outline-none placeholder:text-[#747873]"
+                placeholder="Your email address"
+                type="email"
+              />
+              <button className="brand-button brand-button-secondary px-10" type="button">
+                Join Now
+              </button>
+            </form>
           </div>
-          <form className="flex flex-col gap-3 sm:flex-row">
-            <input
-              aria-label="Email address"
-              className="h-10 flex-1 bg-white px-5 text-sm text-[#263127] outline-none placeholder:text-[#747873]"
-              placeholder="Your email address"
-              type="email"
-            />
-            <button className="brand-button brand-button-secondary px-10" type="button">
-              Join Now
-            </button>
-          </form>
         </div>
       </section>
 
